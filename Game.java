@@ -62,6 +62,7 @@ public class Game {
             grid[oldX][oldY] = ' ';
             grid[ship.getX()][ship.getY()] = 'C';
         }
+		System.out.println("Dummy push");
         
         return this;
     }
