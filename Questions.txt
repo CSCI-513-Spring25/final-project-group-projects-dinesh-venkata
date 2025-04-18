@@ -1,0 +1,2 @@
+are whirlpools group of cells moving together?
+how can we use decorator to either cc or whirlpool?
