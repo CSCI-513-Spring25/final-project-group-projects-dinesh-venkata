@@ -139,9 +139,11 @@ class App extends React.Component<Props, GameState> {
     e.dataTransfer.setData("type",widgetType);
 }
 handleOnDrop =async(e:React.DragEvent,image:number )=>{
-  const widgetType = e.dataTransfer.getData("widgetType") as string;
-  console.log("widgetType:", widgetType);
-  
+  const type = e.dataTransfer.getData("type") as string;
+  console.log("type:", type);
+  const response = await fetch(`/createObject?index=${image}&type=${type}`);
+  const json = await response.json();
+  this.setState({cells:json['cells']});
 }
 handleDragOver(e:React.DragEvent){
   e.preventDefault();
@@ -176,10 +178,9 @@ handleDragOver(e:React.DragEvent){
                 <div className="widget" draggable onDragStart={(e)=> this.handleOnDrag(e,"W")}>
                 <img src={require(".//images//whirlpool.jpg")} alt="Nothing" className={`image `}></img>
                 </div>
-            </div>
-            <div className="page" onDrop = {(e)=>this.handleOnDrop} onDragOver={this.handleDragOver}>
-                Drop Zone
-                {this.state.setWidgets.map((widget,index)=>(<div className="dropped-widget" key="index">{widget}</div>))}
+                
+                <img src={require(".//images//treasure.jpg")} alt="Nothing" className={`image `} draggable onDragStart={(e)=> this.handleOnDrag(e,"T")}></img>
+                
             </div>
         </div>
         <div id="board" onKeyPress={this.handleKeyPressed} >          

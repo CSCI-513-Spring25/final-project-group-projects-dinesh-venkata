@@ -109,6 +109,7 @@ public class Game {
     }
     public void addColumbusShip(int xCoordinate,int yCoordinate){
         if(ship==null)ship=new ColumbusShip(xCoordinate,yCoordinate);
+        grid[ship.getX()][ship.getY()] = 'C';
     }
     public Game createObject(int number, Character type){
         int xCoordinate = number/20;int yCoordinate=number%20;
