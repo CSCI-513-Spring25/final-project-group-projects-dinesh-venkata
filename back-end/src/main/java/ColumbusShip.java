@@ -4,6 +4,7 @@ import java.util.Random;
 public class ColumbusShip extends Observable{
     private Point2D coordinate;  
     private Random random;  
+    public Shield shield;
     public ColumbusShip(int x,int y){
         // random=new Random();
         // coordinate=new Point2D.Float(random.nextInt(0,10),random.nextInt(0,10));
@@ -26,6 +27,9 @@ public class ColumbusShip extends Observable{
         if(grid[cx][cy]=='W'){
             coordinate = game.newRandomLocation(cx, cy);
             System.out.println("Entering WhirlPool");
+        }
+        if(grid[cx][cy]=='S'){
+            addShield(grid);
         }
         grid[(int)coordinate.getX()][(int)coordinate.getY()]='C';        
         setChanged();
@@ -68,4 +72,34 @@ public class ColumbusShip extends Observable{
             setCoordinate(new Point2D.Float(xCoordinate+1,yCoordinate),game);
         }
     }
+    
+    public void addShield(char[][] grid){
+        int xCoordinate = getX();
+        int yCoordinate = getY(); 
+        if(grid[xCoordinate][yCoordinate] == 'S'){
+            if(this.shield!=null){
+                shield.addShield();
+            }
+            else{
+                this.shield = new Shield();
+            }
+              
+            }
+        } 
+
+    public void reduceShield(){           
+                if(this.shield.getShield()!=null)
+                {
+                shield.reduceShield();
+               
+                }
+                else{
+                    shield = null; 
+                }
+                    
+            }
+        
+    public Shield getShield(){
+        return shield;
+    }            
 }

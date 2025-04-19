@@ -4,7 +4,7 @@ import { GameState, Cell } from './game';
 
 import BoardCell from './Cell';
 import Menu from './Menu';
-import { Console } from 'console';
+
 
 /**
  * Define the type of the props field for a React component
