@@ -1,3 +1,4 @@
+
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.geom.Point2D;
@@ -17,12 +18,13 @@ class FastPirateShip implements PirateShip{
 	public Point2D getPirateLocation(){
 		return this.pirateLocation;
 	}  
-    public void movePirateShip(char[][] oceanGrid,ColumbusShip ship,Game game){
-		if(game.getWinner()!=null)return;
+    public Point2D movePirateShip(char[][] oceanGrid,ColumbusShip ship,Game game){
+		if(game.getWinner()!=null)return pirateLocation;
         int px = (int)pirateLocation.getX();
 		int py = (int)pirateLocation.getY();
 		int cx = (int)ship.getX();
 		int cy = (int)ship.getY();
+		System.out.println("px: "+px+", py: "+py);
 		oceanGrid[px][py]=Character.MIN_VALUE;
 		//If Columbus Ship is below the Pirate ship
 		if(px-cx<0 && px+1<20&&px+1>=0&& oceanGrid[px+1][py]!='I'&&oceanGrid[px+1][py]!='P'
@@ -51,5 +53,6 @@ class FastPirateShip implements PirateShip{
 		}
 		oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]='P';
 		// System.out.println("Updating slow pirate location: x: "+ px+", py: "+py);
+		return pirateLocation;
     }
 }

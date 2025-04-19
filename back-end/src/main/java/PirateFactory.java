@@ -1,6 +1,7 @@
+
 abstract class PirateFactory{
-    PirateShip getNewPirateShip(int x,int y){
-        return createPirateShip(x,y);
+    PirateShip getNewPirateShip(int x,int y,char type){
+        return createPirateShip(x,y,type);
     }
-    abstract PirateShip createPirateShip(int x,int y);
+    abstract PirateShip createPirateShip(int x,int y,char type);
 }

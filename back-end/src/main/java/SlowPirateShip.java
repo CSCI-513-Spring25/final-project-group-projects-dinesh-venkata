@@ -1,3 +1,4 @@
+
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Random;
@@ -18,9 +19,9 @@ class SlowPirateShip implements PirateShip{
         return this.pirateLocation;
     }
     @Override
-    public void movePirateShip(char[][] oceanGrid, ColumbusShip ship,Game game) {
+    public Point2D movePirateShip(char[][] oceanGrid, ColumbusShip ship,Game game) {
         // TODO Auto-generated method stub
-        if(game.getWinner()!=null)return;
+        if(game.getWinner()!=null)return pirateLocation;
         Random random = new Random();
         int rDirection = random.nextInt(0,4);
         switch (rDirection)
@@ -40,6 +41,7 @@ class SlowPirateShip implements PirateShip{
             pirateLocation = game.newRandomLocation(nx, ny);
         }
         oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]='Q';
+        return pirateLocation;
     }
     public Point2D moveUp(char[][] oceanGrid,Game game)
     {
@@ -54,7 +56,7 @@ class SlowPirateShip implements PirateShip{
         int px = (int)pirateLocation.getX();
 		int py = (int)pirateLocation.getY();
         oceanGrid[px][py]=Character.MIN_VALUE;
-        if(py+1<10 && oceanGrid[px][py+1]!='I'&&oceanGrid[px][py+1]!='T'&&oceanGrid[px][py+1]!='P'&&oceanGrid[px][py+1]!='Q')py++;
+        if(py+1<20 && oceanGrid[px][py+1]!='I'&&oceanGrid[px][py+1]!='T'&&oceanGrid[px][py+1]!='P'&&oceanGrid[px][py+1]!='Q')py++;
         return new Point2D.Float(px,py);
     }
     public Point2D moveDown(char[][] oceanGrid,Game game)
@@ -62,7 +64,7 @@ class SlowPirateShip implements PirateShip{
         int px = (int)pirateLocation.getX();
 		int py = (int)pirateLocation.getY();
         oceanGrid[px][py]=Character.MIN_VALUE;
-        if(px+1<10 && oceanGrid[px+1][py]!='I'&&oceanGrid[px+1][py]!='T'&&oceanGrid[px+1][py]!='P'&&oceanGrid[px+1][py]!='Q')px++;
+        if(px+1<20 && oceanGrid[px+1][py]!='I'&&oceanGrid[px+1][py]!='T'&&oceanGrid[px+1][py]!='P'&&oceanGrid[px+1][py]!='Q')px++;
         return new Point2D.Float(px,py);
     }
     public Point2D moveLeft(char[][] oceanGrid,Game game)

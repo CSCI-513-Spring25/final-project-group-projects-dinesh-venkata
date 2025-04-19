@@ -1,13 +1,13 @@
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Random;
 public class Game {
     private static char[][] grid=new char[20][20];  
     private ColumbusShip ship;
-    PirateFactory slowPirateFactory;
-    PirateFactory fastPirateFactory;
+    PirateFactory pirateFactory;
     List<PirateShip>pirateShips;
     WhirlpoolComposite whirlpools;
     Monster creatures;
@@ -16,15 +16,14 @@ public class Game {
         grid[x][y]=value;
     }
     public Game(){         
-            slowPirateFactory = new SlowPirateShipFactory();
-            fastPirateFactory = new FastPirateShipFactory(); 
+            pirateFactory = new ConcretePirateShipFactory();
             whirlpools=new WhirlpoolComposite();             
             pirateShips = new ArrayList<>();
             creatures = new Monster();
             initializeGrid(); 
     }
     public boolean containsObject(int x,int y){
-        return grid[x][y]=='C'|| grid[x][y]=='P' || grid[x][y]=='Q'|| grid[x][y]=='I' || grid[x][y]=='W';
+        return grid[x][y]=='C'|| grid[x][y]=='P' || grid[x][y]=='Q'|| grid[x][y]=='I' || grid[x][y]=='W' || grid[x][y]=='T';
     }
     public List<PirateShip> getPirateShips()
     {
@@ -60,16 +59,20 @@ public class Game {
         }
         return this;
     }      
-    public void addPirateShips(int xCoordinate,int yCoordinate,char type){        		
-            PirateShip pirateShip;
-            PirateFactory pirateFactory = type=='P'?fastPirateFactory:slowPirateFactory;
+    public PirateShip addPirateShips(int xCoordinate,int yCoordinate,char type){        		
+            PirateShip pirateShip=null;
+            if(xCoordinate>19||xCoordinate<0||yCoordinate>19||yCoordinate<0||(type!='P'&&type!='Q'))
+            {
+                throw new InputMismatchException("Coordinates Index Out of Bounds");
+            }                
             if(!containsObject(xCoordinate, yCoordinate))
 			{
 				grid[xCoordinate][yCoordinate] = type;		
-                pirateShip=pirateFactory.getNewPirateShip(xCoordinate, yCoordinate);	
+                pirateShip=pirateFactory.getNewPirateShip(xCoordinate, yCoordinate,type);	
                 ship.addObserver(pirateShip);
                 pirateShips.add(pirateShip);             
-			}                            		 
+			}  
+            return pirateShip;                          		 
 		}
     public void addIslands(int xCoordinate,int yCoordinate){
 			//Before assigning Pirate ships, Make sure that location is not occupied by some other island/ship 
@@ -77,7 +80,6 @@ public class Game {
 			{
 				grid[xCoordinate][yCoordinate] = 'I';
 			}
-        
     }
     public void addCreatures(int xCoordinate,int yCoordinate)
     {

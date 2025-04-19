@@ -1,3 +1,4 @@
+
 import java.awt.geom.Point2D;
 class Whirlpool {
     Point2D location;    
