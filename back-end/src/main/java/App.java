@@ -1,5 +1,6 @@
 
 
+
 import java.io.IOException;
 import java.util.Map;
 import fi.iki.elonen.NanoHTTPD;
@@ -40,7 +41,7 @@ public class App extends NanoHTTPD {
             // System.out.println("Player entered key");
             this.game = this.game.play(Integer.parseInt(params.get("keyEvent")));
         }else if(uri.equals("/createObject")){
-            System.out.println("Called Create object");
+            System.out.println("Called Create object " +params.get("index")+" type: "+params.get("type"));
             this.game = this.game.createObject(Integer.parseInt(params.get("index")),params.get("type").charAt(0));
         }
         else if(uri.equals("/undo")){

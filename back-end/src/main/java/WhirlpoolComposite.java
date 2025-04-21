@@ -1,3 +1,4 @@
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ class WhirlpoolComposite{
         Whirlpool whirlpool = whirlpools.stream().filter(w->w.location.getX()==x&&w.location.getY()==y).collect(Collectors.toList()).getFirst();
         int index = whirlpools.indexOf(whirlpool);
         int size = whirlpools.size();
-        int random = 0 + this.random.nextInt(0,size);
+        int random = this.random.nextInt(0,size);
         if(random==index)random = (random+1)%size;
         Whirlpool neWhirlpool = whirlpools.get(random);  
         int nx= (int)neWhirlpool.getLocation().getX();

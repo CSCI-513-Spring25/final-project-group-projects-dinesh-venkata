@@ -2,7 +2,6 @@
   display: grid;
   grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
   background-color: #2196F3;
-  
   column-gap: 1px
 }
 .image{
@@ -11,15 +10,18 @@
 }
 
 .cell {
-  background-color: rgba(204, 24, 24, 0.8);
+  /* background-color: rgba(204, 24, 24, 0.8); */
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
   font-size: 30px;
   height: 5vmin;
-  width: 13.6vmin;
+  width: 5vmin;
   text-align: center;
 }
-
+.resizecell{
+  height: 80px;;
+  width:80px;
+}
 #bottombar {
   height: 5vh;
 }
@@ -49,6 +51,13 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.column {
+  float: left;
+  width: 30%;
+  background-color:  #2196F3;;
+}
+
 
 .playable { background-color: rgb(118, 246, 120);}
 .PLAYER0 { background-color: rgb(215, 90, 48); }

@@ -1,2 +1,1 @@
-are whirlpools group of cells moving together?
-how can we use decorator to either cc or whirlpool?
+do we need to write tests for moveWest, moveNorth, moveSouth, factory classes?

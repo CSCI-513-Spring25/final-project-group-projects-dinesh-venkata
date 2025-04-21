@@ -3,7 +3,6 @@ import './App.css'; // import the css file to enable your styles.
 import { GameState, Cell } from './game';
 
 import BoardCell from './Cell';
-import Menu from './Menu';
 import { Console } from 'console';
 
 /**
@@ -139,9 +138,11 @@ class App extends React.Component<Props, GameState> {
     e.dataTransfer.setData("type",widgetType);
 }
 handleOnDrop =async(e:React.DragEvent,image:number )=>{
-  const widgetType = e.dataTransfer.getData("widgetType") as string;
-  console.log("widgetType:", widgetType);
-  
+  const type = e.dataTransfer.getData("type") as string;
+  console.log("type:", type);
+  const response = await fetch(`/createObject?index=${image}&type=${type}`);
+  const json = await response.json();
+  this.setState({cells:json['cells']});
 }
 handleDragOver(e:React.DragEvent){
   e.preventDefault();
@@ -156,30 +157,40 @@ handleDragOver(e:React.DragEvent){
     return (
       
       <div>
-            <div className ="Menu">
-            <div className="widgets">
-                <div className="widget" draggable onDragStart={(e)=>this.handleOnDrag(e,"P")}>
+            <div className ="row">
+            <div className="column">
+                <div className="column" draggable onDragStart={(e)=>this.handleOnDrag(e,"P")}>
+                  Fast Pirate
                 <img src={require(".//images//fastPirate.jpg")} alt="Nothing" className={`image `}></img>
                 </div>
-                <div className="widget" draggable onDragStart={(e)=> this.handleOnDrag(e,"C")}>
+                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"C")}>
+                  Columbus Ship
                 <img src={require(".//images//ship.jpg")} alt="Nothing" className={`image `}></img>  
                 </div>
-                <div className="widget" draggable onDragStart={(e)=> this.handleOnDrag(e,"I")}>
+                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"I")}>
+                  Island
                 <img src={require(".//images//island.jpg")} alt="Nothing" className={`image `}></img> 
                 </div>
-                <div className="widget" draggable onDragStart={(e)=> this.handleOnDrag(e,"Q")}>
+                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"Q")}>
+                  Slow Pirate
                 <img src={require(".//images//pirateShip.jpg")} alt="Nothing" className={`image `}></img> 
                 </div>
-                <div className="widget" draggable onDragStart={(e)=> this.handleOnDrag(e,"M")}>
+                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"M")}>
+                  Shark
                 <img src={require(".//images//shark.jpg")} alt="Nothing" className={`image `}></img> 
                 </div>
-                <div className="widget" draggable onDragStart={(e)=> this.handleOnDrag(e,"W")}>
+                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"W")}>
+                  WhirlPool
                 <img src={require(".//images//whirlpool.jpg")} alt="Nothing" className={`image `}></img>
                 </div>
-            </div>
-            <div className="page" onDrop = {(e)=>this.handleOnDrop} onDragOver={this.handleDragOver}>
-                Drop Zone
-                {this.state.setWidgets.map((widget,index)=>(<div className="dropped-widget" key="index">{widget}</div>))}
+                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"T")}>
+                  Treasure
+                <img src={require(".//images//treasure.jpg")} alt="Nothing" className={`image `}></img>
+                </div>
+                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"S")}>
+                  Treasure
+                <img src={require(".//images//shield.jpg")} alt="Nothing" className={`image `}></img>
+                </div>                
             </div>
         </div>
         <div id="board" onKeyPress={this.handleKeyPressed} >          
