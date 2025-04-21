@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-class Shark extends Monster{
+class Shark extends CreatureContainer{
     Point2D location;
     @Override
     public void move(Game game) {
