@@ -124,6 +124,7 @@ public class Game {
             case 'W': addWhirlpool(xCoordinate, yCoordinate);break;
             case 'M': addCreatures(xCoordinate,yCoordinate);break;
             case 'T': grid[xCoordinate][yCoordinate]=type;break;
+            case 'S': grid[xCoordinate][yCoordinate]=type;break;
         }
         return this;
     }

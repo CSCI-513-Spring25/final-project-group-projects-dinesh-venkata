@@ -44,13 +44,15 @@ class FastPirateShip implements PirateShip{
 		    py--;
 		pirateLocation.setLocation(px, py);	
 		if(cx==px&&py==cy){
-			game.setWinner("Pirate");
-			game.setColumbusShip(null);
-			System.out.println("Pirate Captured Columbus");
+			if(ship.getDefense()==null){
+				game.setWinner("Pirate");
+				game.setColumbusShip(null);
+				System.out.println("Pirate Captured Columbus");
+			}
+			else ship.reduceShield();
 		}
-		if(oceanGrid[px][py]=='W'){
+		if(oceanGrid[px][py]=='W')
 			pirateLocation.setLocation(game.newRandomLocation(px, py));
-		}
 		oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]='P';
 		// System.out.println("Updating slow pirate location: x: "+ px+", py: "+py);
 		return pirateLocation;

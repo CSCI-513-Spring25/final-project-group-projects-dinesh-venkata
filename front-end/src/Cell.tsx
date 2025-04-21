@@ -36,6 +36,10 @@ class BoardCell extends React.Component<Props> {
         return (
         <img src={require(".//images//treasure.jpg")} alt="Nothing" className={`resizecell `}></img> 
         )
+        else if (this.props.cell.text=='S')
+          return (
+            <img src={require(".//images//shield.jpg")} alt="Nothing" className={`resizecell `}></img> 
+            )
       else
       return (
         <div className={`cell ` }>{this.props.cell.text}</div>

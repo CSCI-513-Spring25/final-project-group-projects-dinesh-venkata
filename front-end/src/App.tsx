@@ -187,6 +187,10 @@ handleDragOver(e:React.DragEvent){
                   Treasure
                 <img src={require(".//images//treasure.jpg")} alt="Nothing" className={`image `}></img>
                 </div>
+                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"S")}>
+                  Treasure
+                <img src={require(".//images//shield.jpg")} alt="Nothing" className={`image `}></img>
+                </div>                
             </div>
         </div>
         <div id="board" onKeyPress={this.handleKeyPressed} >          
