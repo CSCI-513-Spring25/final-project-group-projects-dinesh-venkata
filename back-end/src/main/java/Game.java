@@ -10,7 +10,7 @@ public class Game {
     PirateFactory pirateFactory;
     List<PirateShip>pirateShips;
     WhirlpoolComposite whirlpools;
-    Monster creatures;
+    CreatureContainer creatures;
     String winner;
     public void updateGrid(int x,int y,char value){
         grid[x][y]=value;
@@ -19,7 +19,7 @@ public class Game {
             pirateFactory = new ConcretePirateShipFactory();
             whirlpools=new WhirlpoolComposite();             
             pirateShips = new ArrayList<>();
-            creatures = new Monster();
+            creatures = new CreatureContainer();
             initializeGrid(); 
     }
     public boolean containsObject(int x,int y){

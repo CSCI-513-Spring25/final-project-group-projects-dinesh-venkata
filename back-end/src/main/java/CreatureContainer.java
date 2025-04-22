@@ -2,13 +2,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
-class Monster implements Creature{
+class CreatureContainer implements Creature{
     int xfloor=16;
     int xceiling=19;
     int yfloor=8;
     int yceiling=11;
     List<Creature>sharks;
-    public Monster()
+    public CreatureContainer()
     {
         sharks = new ArrayList();
     }
