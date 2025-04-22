@@ -33,9 +33,16 @@ class SlowPirateShip implements PirateShip{
         }
         int nx=(int)pirateLocation.getX();int ny=(int)pirateLocation.getY();
         if(game.getColumbusShip().getX()==nx&&game.getColumbusShip().getY()==ny){
-            game.setWinner("Pirate");
+            if(ship.getDefense()==null){
+                game.setWinner("Pirate");
             game.setColumbusShip(null);
             System.out.println("Pirate captured Columbus");
+            }
+            else{
+                ship.reduceShield();
+                game.killPirateShip(nx, ny);
+                return pirateLocation;
+            }
         }
         if(oceanGrid[nx][ny]=='W'){
             pirateLocation = game.newRandomLocation(nx, ny);

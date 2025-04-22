@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.stream.Collectors;
 public class Game {
     private static char[][] grid=new char[20][20];  
     private ColumbusShip ship;
@@ -127,5 +128,11 @@ public class Game {
             case 'S': grid[xCoordinate][yCoordinate]=type;break;
         }
         return this;
+    }
+    public void killPirateShip(int xCoordinate,int yCoordinate){
+        PirateShip pirate = pirateShips.stream().filter(p->(p.getPirateLocation().getX()==xCoordinate&&p.getPirateLocation().getY()==yCoordinate)).collect(Collectors.toList()).get(0);
+        ship.deleteObserver(pirate);
+        pirateShips.remove(pirate);
+        pirate=null;
     }
 }
