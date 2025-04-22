@@ -57,6 +57,7 @@ class Shark extends CreatureContainer {
         {
             // System.out.println("Killing Pirate with coordinates: X: "+x+", Y: "+y);
             PirateShip pirate = pirateShips.stream().filter(p->(p.getPirateLocation().getX()==x&&p.getPirateLocation().getY()==y)).collect(Collectors.toList()).get(0);
+            // Modify this for all Pirates
             game.getColumbusShip().deleteObserver(pirate);
             pirateShips.remove(pirate);
             pirate=null;

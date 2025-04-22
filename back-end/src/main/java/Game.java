@@ -139,4 +139,10 @@ public class Game {
         }
         return this;
     }
+    public void killPirateShip(int xCoordinate,int yCoordinate){
+        PirateShip pirate = pirateShips.stream().filter(p->(p.getPirateLocation().getX()==xCoordinate&&p.getPirateLocation().getY()==yCoordinate)).collect(Collectors.toList()).get(0);
+        ship.deleteObserver(pirate);
+        pirateShips.remove(pirate);
+        pirate=null;
+    }
 }
