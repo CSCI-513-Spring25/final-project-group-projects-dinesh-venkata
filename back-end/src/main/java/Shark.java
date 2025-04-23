@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-class Shark extends CreatureContainer{
+class Shark extends CreatureContainer {
     Point2D location;
     @Override
     public void move(Game game) {
@@ -14,7 +14,7 @@ class Shark extends CreatureContainer{
         Random random = new Random();
         int direction = random.nextInt(0,4);
         char[][] grid=game.getGrid();
-        kill(game, xCoordinate, yCoordinate, grid);
+        // kill(game, xCoordinate, yCoordinate, grid);
         grid[xCoordinate][yCoordinate]=Character.MIN_VALUE;
         switch(direction){
             case 0:
@@ -43,7 +43,7 @@ class Shark extends CreatureContainer{
             }
         }
         if(grid[xCoordinate][yCoordinate]!='M'){
-            kill(game,xCoordinate,yCoordinate,grid);
+            kill(game,xCoordinate,yCoordinate,grid[xCoordinate][yCoordinate]);
             location = new Point2D.Float(xCoordinate,yCoordinate);
             grid[xCoordinate][yCoordinate]='M';            
         }        
@@ -51,9 +51,9 @@ class Shark extends CreatureContainer{
     Shark(int x,int y){
         this.location=new Point2D.Float(x,y);
     }
-    public void kill(Game game,int x,int y,char[][] grid){
+    public void kill(Game game,int x,int y, char type){
         List<PirateShip>pirateShips=game.getPirateShips();
-        if(grid[x][y]=='P'||grid[x][y]=='Q')
+        if(type=='P')
         {
             // System.out.println("Killing Pirate with coordinates: X: "+x+", Y: "+y);
             PirateShip pirate = pirateShips.stream().filter(p->(p.getPirateLocation().getX()==x&&p.getPirateLocation().getY()==y)).collect(Collectors.toList()).get(0);
@@ -61,11 +61,22 @@ class Shark extends CreatureContainer{
             pirateShips.remove(pirate);
             pirate=null;
         }
-        if(grid[x][y]=='C')
-        {
-            game.setWinner("Shark");  
-            game.setColumbusShip(null);  
-            // System.out.println("Killing Columbus Ship");                                
+        if (type=='C'){
+            game.setWinner("Shark");
+            game.setColumbusShip(null);
+            System.out.println("Shark Captured Columbus");
         }
+        
     }
+    public Point2D getLocation() {
+        return location;
+    }
+    public void setLocation(Point2D location) {
+        this.location = location;
+    }
+    
+    
+
+
+
 }

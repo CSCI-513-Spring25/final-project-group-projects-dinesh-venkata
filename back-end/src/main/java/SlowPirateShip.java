@@ -47,7 +47,7 @@ class SlowPirateShip implements PirateShip{
         if(oceanGrid[nx][ny]=='W'){
             pirateLocation = game.newRandomLocation(nx, ny);
         }
-        oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]='Q';
+        oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]=accept(game.getCreatures(), game)?'M':'Q';
         return pirateLocation;
     }
     public Point2D moveUp(char[][] oceanGrid,Game game)
@@ -82,4 +82,9 @@ class SlowPirateShip implements PirateShip{
         if(py-1>=0 && oceanGrid[px][py-1]!='I'&&oceanGrid[px][py-1]!='T'&&oceanGrid[px][py-1]!='P'&&oceanGrid[px][py-1]!='Q')py--;        
         return new Point2D.Float(px,py);
     }
+
+    @Override
+    public boolean accept(VisitorInterface shark, Game game){
+        return shark.visit(this, game);
+        }
 }

@@ -16,6 +16,9 @@ public class Game {
     public void updateGrid(int x,int y,char value){
         grid[x][y]=value;
     }
+    public CreatureContainer getCreatures(){
+        return this.creatures;
+    }
     public Game(){         
             pirateFactory = new ConcretePirateShipFactory();
             whirlpools=new WhirlpoolComposite();             
