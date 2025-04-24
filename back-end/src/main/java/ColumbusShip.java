@@ -2,7 +2,7 @@
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Random;
-public class ColumbusShip extends Observable implements Defense{
+public class ColumbusShip extends Observable implements Defense,VisiteeInterface{
     private Point2D coordinate;  
     private Random random;  
     private Defense shield;
@@ -33,7 +33,11 @@ public class ColumbusShip extends Observable implements Defense{
         if(grid[cx][cy]=='S'){
             addShield();
         }
-        grid[(int)coordinate.getX()][(int)coordinate.getY()]='C';        
+        boolean killed=accept(game.getCreatures(), game);
+        grid[(int)coordinate.getX()][(int)coordinate.getY()]=killed?' ':'C';        
+        if(killed){
+            game.setWinner("Shark");return coordinate;
+        }
         setChanged();
         notifyObservers(game);
         return coordinate;
@@ -62,6 +66,7 @@ public class ColumbusShip extends Observable implements Defense{
         int xCoordinate = getX();
         int yCoordinate = getY();        
         grid[xCoordinate][yCoordinate]=Character.MIN_VALUE;
+        System.out.println("xCoordinate: "+ xCoordinate);
         if(xCoordinate-1>=0 && game.noObstacles(xCoordinate-1, yCoordinate))           
             setCoordinate(new Point2D.Float(xCoordinate-1,yCoordinate),game);
         return coordinate;       
@@ -90,5 +95,10 @@ public class ColumbusShip extends Observable implements Defense{
             shield.reduceShield();
         else
             shield = null; 
+    }
+    @Override
+    public boolean accept(VisitorInterface shark, Game game) {
+        // TODO Auto-generated method stub
+        return shark.visit(this, game);
     }
 }

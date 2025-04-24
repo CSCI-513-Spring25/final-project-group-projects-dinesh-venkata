@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.stream.Collectors;
 public class Game {
     private static char[][] grid=new char[20][20];  
     private ColumbusShip ship;
@@ -14,6 +15,9 @@ public class Game {
     String winner;
     public void updateGrid(int x,int y,char value){
         grid[x][y]=value;
+    }
+    public CreatureContainer getCreatures(){
+        return this.creatures;
     }
     public Game(){         
             pirateFactory = new ConcretePirateShipFactory();
@@ -113,6 +117,13 @@ public class Game {
         if(ship==null)ship=new ColumbusShip(xCoordinate,yCoordinate);
         grid[ship.getX()][ship.getY()] = 'C';
     }
+    public void killPirateShip(int xCoordinate,int yCoordinate){
+        PirateShip pirate = pirateShips.stream().filter(p->(p.getPirateLocation().getX()==xCoordinate && p.getPirateLocation().getY()==yCoordinate)).collect(Collectors.toList()).get(0);
+        ship.deleteObserver(pirate);
+            pirateShips.remove(pirate);
+            pirate=null;
+    }
+    
     public Game createObject(int number, Character type){
         int xCoordinate = number/20;int yCoordinate=number%20;
         System.out.println("Called Create Object: X: "+xCoordinate+", Y: "+yCoordinate);

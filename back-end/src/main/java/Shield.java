@@ -28,4 +28,6 @@ public class Shield implements Defense{
         // TODO Auto-generated method stub
         return shield;
     }
+
+    
 }

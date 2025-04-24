@@ -49,12 +49,21 @@ class FastPirateShip implements PirateShip{
 				game.setColumbusShip(null);
 				System.out.println("Pirate Captured Columbus");
 			}
-			else ship.reduceShield();
+			else {
+				ship.reduceShield();
+				game.killPirateShip(px,py);
+				return pirateLocation;
+			}
 		}
 		if(oceanGrid[px][py]=='W')
 			pirateLocation.setLocation(game.newRandomLocation(px, py));
-		oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]='P';
+		
+		oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]=(accept(game.getCreatures(),game))?'M':'P';
 		// System.out.println("Updating slow pirate location: x: "+ px+", py: "+py);
 		return pirateLocation;
     }
+	@Override
+    public boolean accept(VisitorInterface shark, Game game){
+        return shark.visit(this,game);
+        }
 }
