@@ -4,7 +4,7 @@ abstract class PirateFactory{
         PirateShip pirate = createPirateShip(x, y, type);
         game.getColumbusShip().addObserver(pirate);
         game.getPirateShips().add(pirate);
-        return createPirateShip(x,y,type);
+        return pirate;
     }
     abstract PirateShip createPirateShip(int x,int y,char type);
 }

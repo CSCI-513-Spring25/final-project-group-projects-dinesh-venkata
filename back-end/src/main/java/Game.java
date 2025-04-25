@@ -138,7 +138,6 @@ public class Game {
         PirateShip pirate = pirateShips.stream().filter(p->(p.getPirateLocation().getX()==xCoordinate&&p.getPirateLocation().getY()==yCoordinate)).collect(Collectors.toList()).get(0);
         ship.deleteObserver(pirate);
         pirateShips.remove(pirate);
-        System.out.println("calling kill pirate");
         pirate=null;
     }
     public Point2D pirateColumbusCollisionCheck(int px,int py){

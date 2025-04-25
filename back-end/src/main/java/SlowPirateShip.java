@@ -55,7 +55,7 @@ class SlowPirateShip implements PirateShip{
         int px = (int)pirateLocation.getX();
 		int py = (int)pirateLocation.getY();
         oceanGrid[px][py]=Character.MIN_VALUE;
-        if(px-1>=0 && oceanGrid[px-1][py]!='I'&&oceanGrid[px-1][py]!='T'&&oceanGrid[px-1][py]!='P'&&oceanGrid[px-1][py]!='Q')px--;        
+        if(game.noObstaclesForPirate(px-1,py))px--;        
         return new Point2D.Float(px,py);
     }
     public Point2D moveRight(char[][] oceanGrid,Game game)
@@ -63,7 +63,7 @@ class SlowPirateShip implements PirateShip{
         int px = (int)pirateLocation.getX();
 		int py = (int)pirateLocation.getY();
         oceanGrid[px][py]=Character.MIN_VALUE;
-        if(py+1<20 && oceanGrid[px][py+1]!='I'&&oceanGrid[px][py+1]!='T'&&oceanGrid[px][py+1]!='P'&&oceanGrid[px][py+1]!='Q')py++;
+        if(game.noObstaclesForPirate(px,py+1))py++;
         return new Point2D.Float(px,py);
     }
     public Point2D moveDown(char[][] oceanGrid,Game game)
@@ -71,7 +71,7 @@ class SlowPirateShip implements PirateShip{
         int px = (int)pirateLocation.getX();
 		int py = (int)pirateLocation.getY();
         oceanGrid[px][py]=Character.MIN_VALUE;
-        if(px+1<20 && oceanGrid[px+1][py]!='I'&&oceanGrid[px+1][py]!='T'&&oceanGrid[px+1][py]!='P'&&oceanGrid[px+1][py]!='Q')px++;
+        if(game.noObstaclesForPirate(px+1,py))px++;
         return new Point2D.Float(px,py);
     }
     public Point2D moveLeft(char[][] oceanGrid,Game game)
@@ -79,7 +79,7 @@ class SlowPirateShip implements PirateShip{
         int px = (int)pirateLocation.getX();
 		int py = (int)pirateLocation.getY();
         oceanGrid[px][py]=Character.MIN_VALUE;
-        if(py-1>=0 && oceanGrid[px][py-1]!='I'&&oceanGrid[px][py-1]!='T'&&oceanGrid[px][py-1]!='P'&&oceanGrid[px][py-1]!='Q')py--;        
+        if(game.noObstaclesForPirate(px,py-1))py--;        
         return new Point2D.Float(px,py);
     }
 

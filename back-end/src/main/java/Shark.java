@@ -13,8 +13,7 @@ class Shark extends CreatureContainer {
         int yCoordinate=(int)location.getY();
         Random random = new Random();
         int direction = random.nextInt(0,4);
-        char[][] grid=game.getGrid();
-        // kill(game, xCoordinate, yCoordinate, grid);
+        char[][] grid=game.getGrid();        
         grid[xCoordinate][yCoordinate]=Character.MIN_VALUE;
         switch(direction){
             case 0:
