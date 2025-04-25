@@ -23,7 +23,9 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
         char[][] grid=game.getGrid();
         int cx=(int)point.getX();int cy=(int)point.getY();
         if(grid[cx][cy]=='T'){
-            game.setWinner("Columbus");return coordinate;
+            game.setWinner("Columbus");
+            game.updateGrid(cx, cy, 'C');
+            return coordinate;
         }
         System.out.println("Columbus coordinates: X: "+cx+", Y: "+cy);
         if(grid[cx][cy]=='W'){
@@ -48,7 +50,8 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
         int yCoordinate = getY();
         grid[xCoordinate][yCoordinate]=Character.MIN_VALUE;       
         if(yCoordinate+1<20&&game.noObstacles(xCoordinate, yCoordinate+1))                    
-            setCoordinate(new Point2D.Float(xCoordinate,yCoordinate+1),game);            
+            setCoordinate(new Point2D.Float(xCoordinate,yCoordinate+1),game); 
+        else setCoordinate(coordinate, game);           
         return coordinate;
     }
     public Point2D moveWest(Game game)
@@ -59,6 +62,7 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
         grid[xCoordinate][yCoordinate]=Character.MIN_VALUE;  
         if(yCoordinate-1>=0 && game.noObstacles(xCoordinate, yCoordinate-1))                     
             setCoordinate(new Point2D.Float(xCoordinate,yCoordinate-1),game);
+        else setCoordinate(coordinate, game);
         return coordinate;
     }
     public Point2D moveNorth(Game game){
@@ -69,6 +73,7 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
         System.out.println("xCoordinate: "+ xCoordinate);
         if(xCoordinate-1>=0 && game.noObstacles(xCoordinate-1, yCoordinate))           
             setCoordinate(new Point2D.Float(xCoordinate-1,yCoordinate),game);
+        else setCoordinate(coordinate, game);
         return coordinate;       
     }
     public Point2D moveSouth(Game game){
@@ -78,6 +83,7 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
         grid[xCoordinate][yCoordinate]=Character.MIN_VALUE;     
         if(xCoordinate+1<=19 && game.noObstacles(xCoordinate+1, yCoordinate))          
             setCoordinate(new Point2D.Float(xCoordinate+1,yCoordinate),game);
+        else setCoordinate(coordinate, game);
         return coordinate;
     }
     @Override
