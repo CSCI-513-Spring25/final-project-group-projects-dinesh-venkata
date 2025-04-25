@@ -4,12 +4,10 @@ public class Shield implements Defense{
     public void addShield() {
         // TODO Auto-generated method stub
         if(this.shield == null){
-            this.shield = new Shield();
-            System.out.println("Added shield constructor");
+            this.shield = new Shield();            
         }
         else{
-            shield.addShield();
-            System.out.println("Added shield extra");
+            shield.addShield();            
         } 
     }
     @Override
@@ -19,10 +17,8 @@ public class Shield implements Defense{
          this.shield = null;
      else{
          shield.reduceShield();
-     }
-     System.out.println("Reduced shield");
+     }     
     }
-
     @Override
     public Defense getDefense() {
         // TODO Auto-generated method stub

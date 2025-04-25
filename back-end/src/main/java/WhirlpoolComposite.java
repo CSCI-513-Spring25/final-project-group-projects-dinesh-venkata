@@ -20,8 +20,7 @@ class WhirlpoolComposite{
         if(random==index)random = (random+1)%size;
         Whirlpool neWhirlpool = whirlpools.get(random);  
         int nx= (int)neWhirlpool.getLocation().getX();
-        int ny=(int)neWhirlpool.getLocation().getY();   
-        System.out.println("Returning the index of random whirpool: "+random+", for whirlpool with index: "+index);     
+        int ny=(int)neWhirlpool.getLocation().getY();           
         return new Point2D.Float(nx,ny);
     }
 }

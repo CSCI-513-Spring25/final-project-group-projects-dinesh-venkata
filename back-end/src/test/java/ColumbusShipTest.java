@@ -2,6 +2,7 @@ import static org.junit.Assert.*;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.util.List;
 
 import org.junit.Test;
 public class ColumbusShipTest {
@@ -58,5 +59,27 @@ public class ColumbusShipTest {
         ColumbusShip ship = game.getColumbusShip();
         ship.moveWest(game);
         assertEquals(new Point2D.Float(ship.getX(), ship.getY()),new Point2D.Float(15,9));
+    }
+    @Test
+    public void columbusKillPirateWithShieldTest(){
+        Game game = new Game();
+        game.addColumbusShip(10,15);
+        game.updateGrid(10, 16,'S');
+        ColumbusShip ship = game.getColumbusShip();
+        PirateShip pirateShip=game.addPirateShips(10,18,'P');
+        ship.moveEast(game);
+        ship.moveNorth(game);
+        List<PirateShip>pirateShips=game.getPirateShips();
+        assertEquals(-1,pirateShips.indexOf(pirateShip));
+    }
+    @Test
+    public void columbusEntersSeaCreatureTest(){
+        Game game = new Game();
+        game.addColumbusShip(18,9);
+        game.addCreatures(18, 10);
+        ColumbusShip ship = game.getColumbusShip();
+        ship.moveEast(game);
+        ship.moveEast(game);
+        assertEquals("Shark",game.getWinner());
     }
 }

@@ -35,8 +35,7 @@ class SlowPirateShip implements PirateShip{
         if(game.getColumbusShip().getX()==nx&&game.getColumbusShip().getY()==ny){
             if(ship.getDefense()==null){
 				game.setWinner("Pirate");
-				game.setColumbusShip(null);
-				System.out.println("Pirate Captured Columbus");
+				game.setColumbusShip(null);				
 			}
 			else {
 				ship.reduceShield();
