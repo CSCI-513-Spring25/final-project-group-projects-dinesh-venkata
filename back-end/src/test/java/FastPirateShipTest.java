@@ -14,12 +14,12 @@ public class FastPirateShipTest {
     @Test
     public void movePirateShipTest(){
         Game game = new Game();
-        game.addColumbusShip(15,15);
-        PirateShip pirate = game.addPirateShips(10, 12,'P');
+        game.addColumbusShip(10,12);
+        PirateShip pirate = game.addPirateShips(8, 15,'P');
         ColumbusShip ship = game.getColumbusShip();
         ship.moveNorth(game);
-        Point2D pirateLocation=pirate.getPirateLocation();
-        assertEquals(pirateLocation,new Point2D.Float(11,13));
+        Point2D pirateLocation=pirate.getPirateLocation();        
+        assertEquals(pirateLocation,new Point2D.Float(9,14));
     }
     @Test
     public void movePirateShipWithObstacleTest(){
