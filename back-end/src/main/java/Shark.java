@@ -64,10 +64,8 @@ class Shark extends CreatureContainer {
         }
         if (type=='C'){
             game.setWinner("Shark");
-            game.setColumbusShip(null);
-            System.out.println("Shark Captured Columbus");
+            game.setColumbusShip(null);            
         }
-        
     }
     public Point2D getLocation() {
         return location;
@@ -75,9 +73,4 @@ class Shark extends CreatureContainer {
     public void setLocation(Point2D location) {
         this.location = location;
     }
-    
-    
-
-
-
 }
