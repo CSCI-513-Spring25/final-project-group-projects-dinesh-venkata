@@ -85,7 +85,7 @@ public class Game {
     }
     public void addCreatures(int xCoordinate,int yCoordinate)
     {
-        if(!this.containsObject(xCoordinate, yCoordinate)&&xCoordinate>=16&&xCoordinate<=19&&yCoordinate>=8&&yCoordinate<=11&&grid[xCoordinate][yCoordinate]!='M')
+        if(!this.containsObject(xCoordinate, yCoordinate)&&xCoordinate>=2&&xCoordinate<=5&&yCoordinate>=8&&yCoordinate<=11&&grid[xCoordinate][yCoordinate]!='M')
         {
             creatures.addMonster(new Shark(xCoordinate,yCoordinate));
             grid[xCoordinate][yCoordinate]='M';
