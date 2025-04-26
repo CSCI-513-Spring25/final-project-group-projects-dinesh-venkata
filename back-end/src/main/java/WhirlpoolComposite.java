@@ -6,14 +6,14 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 class WhirlpoolComposite{
-    List<Whirlpool>whirlpools = new ArrayList<>();
+    private List<Whirlpool>whirlpools = new ArrayList<>();
     Random random ;
     void addWhirlpool(Whirlpool whirlpool){
         random = new Random();
         whirlpools.add(whirlpool);
     }
-    Point2D newRandomLocation(int x,int y){
-        Whirlpool whirlpool = whirlpools.stream().filter(w->w.location.getX()==x&&w.location.getY()==y).collect(Collectors.toList()).getFirst();
+    public Point2D newRandomLocation(int x,int y){
+        Whirlpool whirlpool = whirlpools.stream().filter(w->w.getLocation().getX()==x&&w.getLocation().getY()==y).collect(Collectors.toList()).getFirst();
         int index = whirlpools.indexOf(whirlpool);
         int size = whirlpools.size();
         int random = this.random.nextInt(0,size);
