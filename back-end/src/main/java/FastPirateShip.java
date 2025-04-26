@@ -43,7 +43,7 @@ class FastPirateShip implements PirateShip{
 		if(pirateLocation!=null)
 		{
 			oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]=(accept(game.getCreatures(),game))?'M':'P';
-		}		
+		}
 		return;
     }
 	@Override

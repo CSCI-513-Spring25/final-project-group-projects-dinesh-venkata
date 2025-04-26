@@ -145,7 +145,7 @@ public class Game {
         if(cx==px&&py==cy){
 			if(ship.getDefense()==null){
 				setWinner("Pirate");
-				setColumbusShip(null);				
+				setColumbusShip(null);
 			}
 			else {
 				ship.reduceShield();
