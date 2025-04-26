@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 class CreatureContainer implements Creature, VisitorInterface{
-    int xfloor=16;
-    int xceiling=19;
+    int xfloor=5;
+    int xceiling=2;
     int yfloor=8;
     int yceiling=11;
     List<Creature>sharks;
