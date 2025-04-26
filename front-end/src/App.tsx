@@ -1,205 +1,135 @@
-import React, { useState } from 'react';
-import './App.css'; // import the css file to enable your styles.
+import React from 'react';
+import './App.css';
 import { GameState, Cell } from './game';
-
 import BoardCell from './Cell';
-import { Console } from 'console';
 
-/**
- * Define the type of the props field for a React component
- */
 interface Props { }
 
-/**
- * Using generics to specify the type of props and state.
- * props and state is a special field in a React component.
- * React will keep track of the value of props and state.
- * Any time there's a change to their values, React will
- * automatically update (not fully re-render) the HTML needed.
- * 
- * props and state are similar in the sense that they manage
- * the data of this component. A change to their values will
- * cause the view (HTML) to change accordingly.
- * 
- * Usually, props is passed and changed by the parent component;
- * state is the internal value of the component and managed by
- * the component itself.
- */
 class App extends React.Component<Props, GameState> {
-  private initialized: boolean = false; 
-  
-  /**
-   * @param props has type Props
-   */
+  private initialized: boolean = false;
+  currentPlayer = 'PLAYER0';
+  winner = '';
+
   constructor(props: Props) {
-    super(props)
-    /**
-     * state has type GameState as specified in the class inheritance.
-     */
-    this.state = { cells: [],widgets : [],setWidgets:[],name:"" }
-    
-      // this.handleKeyPressed = this.handleKeyPressed.bind(this);
+    super(props);
+    this.state = { cells: [], widgets: [], setWidgets: [], name: "" };
   }
 
-  /**
-   * Use arrow function, i.e., () => {} to create an async function,
-   * otherwise, 'this' would become undefined in runtime. This is
-   * just an issue of Javascript.
-   */
   newGame = async () => {
     const response = await fetch('/newgame');
     const json = await response.json();
     this.setState({ cells: json['cells'] });
   }
-  
 
-  /**
-   * play will generate an anonymous function that the component
-   * can bind with.
-   * @param x 
-   * @param y 
-   * @returns 
-   */
   play(x: number, y: number): React.MouseEventHandler {
     return async (e) => {
-      // prevent the default behavior on clicking a link; otherwise, it will jump to a new page.
       e.preventDefault();
-      const response = await fetch(`/play?x=${x}&y=${y}`)
-      const json = await response.json();      
+      const response = await fetch(`/play?x=${x}&y=${y}`);
+      const json = await response.json();
       this.currentPlayer = json['currentPlayer'];
-      
-      //  console.log(this.winner);
       this.setState({ cells: json['cells'] });
     }
   }
-  currentPlayer = 'PLAYER0'
-  winner = ''
 
-  undo= async () => {          
-      const response = await fetch(`/undo`)
-      const json = await response.json();
-      this.currentPlayer = json['currentPlayer'];
-      
-      this.setState({cells: json['cells']});
-    }
-
-  createCell(cell: Cell, index: number): React.ReactNode {
-    if (cell.playable)
-      /**
-       * key is used for React when given a list of items. It
-       * helps React to keep track of the list items and decide
-       * which list item need to be updated.
-       * @see https://reactjs.org/docs/lists-and-keys.html#keys
-       */
-      return (
-        <div key={index} >
-            <BoardCell cell={cell} ></BoardCell>
-        </div>
-      )
-    else
-      return (
-        <div key={index} onDrop = {(e)=>this.handleOnDrop(e,index)} onDragOver={this.handleDragOver}>
-          <BoardCell cell={cell}></BoardCell></div>
-      )
+  undo = async () => {
+    const response = await fetch(`/undo`);
+    const json = await response.json();
+    this.currentPlayer = json['currentPlayer'];
+    this.setState({ cells: json['cells'] });
   }
 
-  /**
-   * This function will call after the HTML is rendered.
-   * We update the initial state by creating a new game.
-   * @see https://reactjs.org/docs/react-component.html#componentdidmount
-   */
+  handleKeyPressed = async (event) => {
+    const response = await fetch(`/play?keyEvent=${event.keyCode}`);
+    const json = await response.json();
+    this.setState({ cells: json['cells'] });
+  }
+
+  handleOnDrag = (e: React.DragEvent, widgetType: string) => {
+    e.dataTransfer.setData("type", widgetType);
+  }
+
+  handleOnDrop = async (e: React.DragEvent, image: number) => {
+    const type = e.dataTransfer.getData("type") as string;
+    const response = await fetch(`/createObject?index=${image}&type=${type}`);
+    const json = await response.json();
+    this.setState({ cells: json['cells'] });
+  }
+
+  handleDragOver(e: React.DragEvent) {
+    e.preventDefault();
+  }
+
+  createCell(cell: Cell, index: number): React.ReactNode {
+    return (
+      <div
+        key={index}
+        onDrop={(e) => this.handleOnDrop(e, index)}
+        onDragOver={this.handleDragOver}
+        className="cell-container"
+      >
+        <BoardCell cell={cell}></BoardCell>
+      </div>
+    );
+  }
+
   componentDidMount(): void {
-    /**
-     * setState in DidMount() will cause it to render twice which may cause
-     * this function to be invoked twice. Use initialized to avoid that.
-     */
     if (!this.initialized) {
       this.newGame();
       this.initialized = true;
     }
-          // window.addEventListener("keypress",this.handleKeyPressed,false);
-          window.addEventListener("keydown",this.handleKeyPressed,false);
+    window.addEventListener("keydown", this.handleKeyPressed, false);
   }
 
-  handleKeyPressed = async(event)=>{
-      // console.log(`${event.keyCode}`+"Key pressed");
-    
-    const response = await fetch(`/play?keyEvent=${event.keyCode}`)
-    const json = await response.json();            
-    console.log("Calling backend");
-    this.setState({ cells: json['cells'] });
+  componentWillUnmount(): void {
+    window.removeEventListener("keydown", this.handleKeyPressed, false);
   }
-  /**
-   * The only method you must define in a React.Component subclass.
-   * @returns the React element via JSX.
-   * @see https://reactjs.org/docs/react-component.html
-   */
-  handleOnDrag =(e:React.DragEvent,widgetType:string)=>{
-    e.dataTransfer.setData("type",widgetType);
-}
-handleOnDrop =async(e:React.DragEvent,image:number )=>{
-  const type = e.dataTransfer.getData("type") as string;
-  console.log("type:", type);
-  const response = await fetch(`/createObject?index=${image}&type=${type}`);
-  const json = await response.json();
-  this.setState({cells:json['cells']});
-}
-handleDragOver(e:React.DragEvent){
-  e.preventDefault();
-}
-  render(): React.ReactNode {    
-    /**
-     * We use JSX to define the template. An advantage of JSX is that you
-     * can treat HTML elements as code.
-     * @see https://reactjs.org/docs/introducing-jsx.html
-     */
-  
+
+  render(): React.ReactNode {
     return (
-      
-      <div>
-            <div className ="row">
-            <div className="column">
-                <div className="column" draggable onDragStart={(e)=>this.handleOnDrag(e,"P")}>
-                  Fast Pirate
-                <img src={require(".//images//fastPirate.jpg")} alt="Nothing" className={`image `}></img>
-                </div>
-                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"C")}>
-                  Columbus Ship
-                <img src={require(".//images//ship.jpg")} alt="Nothing" className={`image `}></img>  
-                </div>
-                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"I")}>
-                  Island
-                <img src={require(".//images//island.jpg")} alt="Nothing" className={`image `}></img> 
-                </div>
-                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"Q")}>
-                  Slow Pirate
-                <img src={require(".//images//pirateShip.jpg")} alt="Nothing" className={`image `}></img> 
-                </div>
-                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"M")}>
-                  Shark
-                <img src={require(".//images//shark.jpg")} alt="Nothing" className={`image `}></img> 
-                </div>
-                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"W")}>
-                  WhirlPool
-                <img src={require(".//images//whirlpool.jpg")} alt="Nothing" className={`image `}></img>
-                </div>
-                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"T")}>
-                  Treasure
-                <img src={require(".//images//treasure.jpg")} alt="Nothing" className={`image `}></img>
-                </div>
-                <div className="column" draggable onDragStart={(e)=> this.handleOnDrag(e,"S")}>
-                  Treasure
-                <img src={require(".//images//shield.jpg")} alt="Nothing" className={`image `}></img>
-                </div>                
-            </div>
+      <div className="app-container">
+        <div className="images-panel">
+          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "P")}>
+            Fast Pirate
+            <img src={require("./images/fastPirate.jpg")} alt="Fast Pirate" className="image" />
+          </div>
+          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "C")}>
+            Columbus Ship
+            <img src={require("./images/ship.jpg")} alt="Columbus Ship" className="image" />
+          </div>
+          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "I")}>
+            Island
+            <img src={require("./images/island.jpg")} alt="Island" className="image" />
+          </div>
+          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "Q")}>
+            Slow Pirate
+            <img src={require("./images/pirateShip.jpg")} alt="Slow Pirate" className="image" />
+          </div>
+          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "M")}>
+            Shark
+            <img src={require("./images/shark.jpg")} alt="Shark" className="image" />
+          </div>
+          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "W")}>
+            WhirlPool
+            <img src={require("./images/whirlpool.jpg")} alt="WhirlPool" className="image" />
+          </div>
+          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "T")}>
+            Treasure
+            <img src={require("./images/treasure.jpg")} alt="Treasure" className="image" />
+          </div>
+          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "S")}>
+            Shield
+            <img src={require("./images/shield.jpg")} alt="Shield" className="image" />
+          </div>
         </div>
-        <div id="board" onKeyPress={this.handleKeyPressed} >          
-          {this.state.cells.map((cell, i) => this.createCell(cell, i) )}
+
+        <div className="game-container">
+          <div id="board">
+            {this.state.cells.map((cell, i) => this.createCell(cell, i))}
+          </div>
         </div>
+
         <div id="bottombar">
-          <button onClick={/* get the function, not call the function */this.newGame}>New Game</button>
-          {/* Exercise: implement Undo function */}
-          
+          <button onClick={this.newGame}>New Game</button>
         </div>
       </div>
     );
