@@ -18,49 +18,33 @@ class FastPirateShip implements PirateShip{
 	public Point2D getPirateLocation(){
 		return this.pirateLocation;
 	}  
-    public Point2D movePirateShip(char[][] oceanGrid,ColumbusShip ship,Game game){
-		if(game.getWinner()!=null)return pirateLocation;
+    public void movePirateShip(char[][] oceanGrid,ColumbusShip ship,Game game){
+		if(game.getWinner()!=null)return;
         int px = (int)pirateLocation.getX();
 		int py = (int)pirateLocation.getY();
 		int cx = (int)ship.getX();
-		int cy = (int)ship.getY();
-		System.out.println("px: "+px+", py: "+py);
+		int cy = (int)ship.getY();		
 		oceanGrid[px][py]=Character.MIN_VALUE;
 		//If Columbus Ship is below the Pirate ship
-		if(px-cx<0 && px+1<20&&px+1>=0&& oceanGrid[px+1][py]!='I'&&oceanGrid[px+1][py]!='P'
-		&& oceanGrid[px+1][py]!='Q' && oceanGrid[px+1][py]!='T')
-			px++;
+		if(px-cx<0 &&game.noObstaclesForPirate(px+1, py))px++;
 		// If Columbus Ship is above Pirate ship
-		else if(px-cx>0 && px-1>=0&&oceanGrid[px-1][py]!='I'&&oceanGrid[px-1][py]!='P'
-		&& oceanGrid[px-1][py]!='Q' && oceanGrid[px-1][py]!='T')
+		else if(px-cx>0 && game.noObstaclesForPirate(px-1, py))
 		    px--;
 		//If Columbus ship is towards right side of the Pirate ship
-		if(py-cy<0 && py+1<20&&py+1>=0&& oceanGrid[px][py+1]!='I'&&oceanGrid[px][py+1]!='P'
-		&& oceanGrid[px][py+1]!='Q'&& oceanGrid[px][py+1]!='T')
+		if(py-cy<0 && game.noObstaclesForPirate(px, py+1))
 		    py++;		
 		//If Columbus ship is towards left side of the Pirate Ship
-		else if(py-cy>0 && py-1<20&&py-1>=0&&oceanGrid[px][py-1]!='I'&&oceanGrid[px][py-1]!='P'
-		&& oceanGrid[px][py-1]!='Q'&& oceanGrid[px][py-1]!='T')
+		else if(py-cy>0 && game.noObstaclesForPirate(px, py-1))
 		    py--;
 		pirateLocation.setLocation(px, py);	
-		if(cx==px&&py==cy){
-			if(ship.getDefense()==null){
-				game.setWinner("Pirate");
-				game.setColumbusShip(null);
-				System.out.println("Pirate Captured Columbus");
-			}
-			else {
-				ship.reduceShield();
-				game.killPirateShip(px,py);
-				return pirateLocation;
-			}
-		}
-		if(oceanGrid[px][py]=='W')
+		pirateLocation=game.pirateColumbusCollisionCheck(px, py);
+		if(pirateLocation!=null&&oceanGrid[px][py]=='W')
 			pirateLocation.setLocation(game.newRandomLocation(px, py));
-		
-		oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]=(accept(game.getCreatures(),game))?'M':'P';
-		// System.out.println("Updating slow pirate location: x: "+ px+", py: "+py);
-		return pirateLocation;
+		if(pirateLocation!=null)
+		{
+			oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]=(accept(game.getCreatures(),game))?'M':'P';
+		}		
+		return;
     }
 	@Override
     public boolean accept(VisitorInterface shark, Game game){

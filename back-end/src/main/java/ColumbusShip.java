@@ -18,37 +18,39 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
     public int getY(){
         return (int)coordinate.getY();
     }
-    private Point2D setCoordinate(Point2D point,Game game){
+    private void setCoordinate(Point2D point,Point2D previousPoint,Game game){
         coordinate=point;
         char[][] grid=game.getGrid();
-        int cx=(int)point.getX();int cy=(int)point.getY();
-        if(grid[cx][cy]=='T'){
-            game.setWinner("Columbus");return coordinate;
-        }
-        System.out.println("Columbus coordinates: X: "+cx+", Y: "+cy);
+        int cx=(int)point.getX();int cy=(int)point.getY(); 
         if(grid[cx][cy]=='W'){
-            coordinate = game.newRandomLocation(cx, cy);
-            System.out.println("Entering WhirlPool");
+            coordinate = game.newRandomLocation(cx, cy);   
+            coordinate=coordinate!=null?coordinate:previousPoint;
         }
-        if(grid[cx][cy]=='S'){
+        if(grid[cx][cy]=='T'){
+            game.setWinner("Columbus");
+            game.updateGrid(cx, cy, 'C');
+            return ;
+        }  
+        if(grid[(int)coordinate.getX()][(int)coordinate.getY()]=='S'){
             addShield();
         }
         boolean killed=accept(game.getCreatures(), game);
         grid[(int)coordinate.getX()][(int)coordinate.getY()]=killed?' ':'C';        
         if(killed){
-            game.setWinner("Shark");return coordinate;
+            game.setWinner("Shark");return ;
         }
         setChanged();
         notifyObservers(game);
-        return coordinate;
+        return ;
     }
     public Point2D moveEast(Game game){
         char[][] grid=game.getGrid();
         int xCoordinate = getX();
         int yCoordinate = getY();
         grid[xCoordinate][yCoordinate]=Character.MIN_VALUE;       
-        if(yCoordinate+1<20&&game.noObstacles(xCoordinate, yCoordinate+1))                    
-            setCoordinate(new Point2D.Float(xCoordinate,yCoordinate+1),game);            
+        if(game.noObstacles(xCoordinate, yCoordinate+1))                    
+            setCoordinate(new Point2D.Float(xCoordinate,yCoordinate+1),coordinate,game); 
+        else setCoordinate(coordinate,coordinate, game);           
         return coordinate;
     }
     public Point2D moveWest(Game game)
@@ -57,8 +59,9 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
         int xCoordinate = getX();
         int yCoordinate = getY();      
         grid[xCoordinate][yCoordinate]=Character.MIN_VALUE;  
-        if(yCoordinate-1>=0 && game.noObstacles(xCoordinate, yCoordinate-1))                     
-            setCoordinate(new Point2D.Float(xCoordinate,yCoordinate-1),game);
+        if(game.noObstacles(xCoordinate, yCoordinate-1))                     
+            setCoordinate(new Point2D.Float(xCoordinate,yCoordinate-1),coordinate,game);
+        else setCoordinate(coordinate,coordinate, game);
         return coordinate;
     }
     public Point2D moveNorth(Game game){
@@ -67,8 +70,9 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
         int yCoordinate = getY();        
         grid[xCoordinate][yCoordinate]=Character.MIN_VALUE;
         System.out.println("xCoordinate: "+ xCoordinate);
-        if(xCoordinate-1>=0 && game.noObstacles(xCoordinate-1, yCoordinate))           
-            setCoordinate(new Point2D.Float(xCoordinate-1,yCoordinate),game);
+        if(game.noObstacles(xCoordinate-1, yCoordinate))           
+            setCoordinate(new Point2D.Float(xCoordinate-1,yCoordinate),coordinate,game);
+        else setCoordinate(coordinate,coordinate, game);
         return coordinate;       
     }
     public Point2D moveSouth(Game game){
@@ -76,13 +80,13 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
         int xCoordinate = getX();
         int yCoordinate = getY();   
         grid[xCoordinate][yCoordinate]=Character.MIN_VALUE;     
-        if(xCoordinate+1<=19 && game.noObstacles(xCoordinate+1, yCoordinate))          
-            setCoordinate(new Point2D.Float(xCoordinate+1,yCoordinate),game);
+        if(game.noObstacles(xCoordinate+1, yCoordinate))          
+            setCoordinate(new Point2D.Float(xCoordinate+1,yCoordinate),coordinate,game);
+        else setCoordinate(coordinate,coordinate, game);
         return coordinate;
     }
     @Override
-    public void addShield() {
-        // TODO Auto-generated method stub
+    public void addShield() {        
         if(this.shield!=null)
             shield.addShield();
         else
@@ -90,7 +94,6 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
     }
     @Override
     public void reduceShield() {
-        // TODO Auto-generated method stub
         if(this.shield.getDefense()!=null)
             shield.reduceShield();
         else
@@ -98,7 +101,6 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
     }
     @Override
     public boolean accept(VisitorInterface shark, Game game) {
-        // TODO Auto-generated method stub
         return shark.visit(this, game);
     }
 }

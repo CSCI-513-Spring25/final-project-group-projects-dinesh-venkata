@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.InputMismatchException;
+import java.util.List;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,12 +14,12 @@ public class FastPirateShipTest {
     @Test
     public void movePirateShipTest(){
         Game game = new Game();
-        game.addColumbusShip(15,15);
-        PirateShip pirate = game.addPirateShips(10, 12,'P');
+        game.addColumbusShip(10,12);
+        PirateShip pirate = game.addPirateShips(8, 15,'P');
         ColumbusShip ship = game.getColumbusShip();
         ship.moveNorth(game);
-        Point2D pirateLocation=pirate.getPirateLocation();
-        assertEquals(pirateLocation,new Point2D.Float(11,13));
+        Point2D pirateLocation=pirate.getPirateLocation();        
+        assertEquals(pirateLocation,new Point2D.Float(9,14));
     }
     @Test
     public void movePirateShipWithObstacleTest(){
@@ -72,6 +73,18 @@ public class FastPirateShipTest {
         assertNotEquals(new Point2D.Float(12,16),pirateLocation);
         assertNotEquals(new Point2D.Float(10,17),pirateLocation);
         assertNotEquals(new Point2D.Float(10,15),pirateLocation);
+    }
+    @Test
+    public void pirateEntersSeaCreatureTest(){
+        Game game = new Game();
+        game.addColumbusShip(19,19);
+        PirateShip pirate = game.addPirateShips(19, 8,'P');
+        game.addCreatures(19,9);
+        ColumbusShip ship = game.getColumbusShip();
+        ship.moveEast(game);
+        ship.moveEast(game);
+        List<PirateShip> pirateShips = game.getPirateShips();
+        assertEquals(-1,pirateShips.indexOf(pirate));
     }
     @Test
     public void pirateEntersWhirlpoolWithObstaclesTest(){
