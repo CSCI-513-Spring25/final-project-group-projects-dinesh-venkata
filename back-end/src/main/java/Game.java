@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 public class Game {
     private static char[][] grid=new char[20][20];  
     private ColumbusShip ship;
-    PirateFactory pirateFactory;
-    List<PirateShip>pirateShips;
-    WhirlpoolComposite whirlpools;
-    CreatureContainer creatures;
-    String winner;
+    private PirateFactory pirateFactory;
+    private List<PirateShip>pirateShips;
+    private WhirlpoolComposite whirlpools;
+    private CreatureContainer creatures;
+    private String winner;
     public void updateGrid(int x,int y,char value){
         grid[x][y]=value;
     }

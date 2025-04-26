@@ -19,9 +19,9 @@ class SlowPirateShip implements PirateShip{
         return this.pirateLocation;
     }
     @Override
-    public Point2D movePirateShip(char[][] oceanGrid, ColumbusShip ship,Game game) {
+    public void movePirateShip(char[][] oceanGrid, ColumbusShip ship,Game game) {
         // TODO Auto-generated method stub
-        if(game.getWinner()!=null)return pirateLocation;
+        if(game.getWinner()!=null)return;
         Random random = new Random();
         int rDirection = random.nextInt(0,4);
         switch (rDirection)
@@ -41,14 +41,14 @@ class SlowPirateShip implements PirateShip{
             else{
                 ship.reduceShield();
                 game.killPirateShip(nx, ny);
-                return pirateLocation;
+                return ;
             }
         }
         if(oceanGrid[nx][ny]=='W'){
             pirateLocation = game.newRandomLocation(nx, ny);
         }
         oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]=accept(game.getCreatures(), game)?'M':'Q';
-        return pirateLocation;
+        return ;
     }
     public Point2D moveUp(char[][] oceanGrid,Game game)
     {

@@ -18,8 +18,8 @@ class FastPirateShip implements PirateShip{
 	public Point2D getPirateLocation(){
 		return this.pirateLocation;
 	}  
-    public Point2D movePirateShip(char[][] oceanGrid,ColumbusShip ship,Game game){
-		if(game.getWinner()!=null)return pirateLocation;
+    public void movePirateShip(char[][] oceanGrid,ColumbusShip ship,Game game){
+		if(game.getWinner()!=null)return;
         int px = (int)pirateLocation.getX();
 		int py = (int)pirateLocation.getY();
 		int cx = (int)ship.getX();
@@ -44,7 +44,7 @@ class FastPirateShip implements PirateShip{
 		{
 			oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]=(accept(game.getCreatures(),game))?'M':'P';
 		}		
-		return pirateLocation;
+		return;
     }
 	@Override
     public boolean accept(VisitorInterface shark, Game game){

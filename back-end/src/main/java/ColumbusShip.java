@@ -18,7 +18,7 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
     public int getY(){
         return (int)coordinate.getY();
     }
-    private Point2D setCoordinate(Point2D point,Point2D previousPoint,Game game){
+    private void setCoordinate(Point2D point,Point2D previousPoint,Game game){
         coordinate=point;
         char[][] grid=game.getGrid();
         int cx=(int)point.getX();int cy=(int)point.getY(); 
@@ -29,7 +29,7 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
         if(grid[cx][cy]=='T'){
             game.setWinner("Columbus");
             game.updateGrid(cx, cy, 'C');
-            return coordinate;
+            return ;
         }  
         if(grid[(int)coordinate.getX()][(int)coordinate.getY()]=='S'){
             addShield();
@@ -37,11 +37,11 @@ public class ColumbusShip extends Observable implements Defense,VisiteeInterface
         boolean killed=accept(game.getCreatures(), game);
         grid[(int)coordinate.getX()][(int)coordinate.getY()]=killed?' ':'C';        
         if(killed){
-            game.setWinner("Shark");return coordinate;
+            game.setWinner("Shark");return ;
         }
         setChanged();
         notifyObservers(game);
-        return coordinate;
+        return ;
     }
     public Point2D moveEast(Game game){
         char[][] grid=game.getGrid();

@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-class Shark extends CreatureContainer {
-    Point2D location;
+class Shark extends CreatureContainer implements Creature {
+    private Point2D location;
     @Override
     public void move(Game game) {
         // TODO Auto-generated method stub
