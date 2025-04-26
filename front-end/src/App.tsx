@@ -87,44 +87,50 @@ class App extends React.Component<Props, GameState> {
   render(): React.ReactNode {
     return (
       <div className="app-container">
-        <div className="images-panel">
-          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "P")}>
-            Fast Pirate
-            <img src={require("./images/fastPirate.jpg")} alt="Fast Pirate" className="image" />
-          </div>
-          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "C")}>
-            Columbus Ship
-            <img src={require("./images/ship.jpg")} alt="Columbus Ship" className="image" />
-          </div>
-          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "I")}>
-            Island
-            <img src={require("./images/island.jpg")} alt="Island" className="image" />
-          </div>
-          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "Q")}>
-            Slow Pirate
-            <img src={require("./images/pirateShip.jpg")} alt="Slow Pirate" className="image" />
-          </div>
-          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "M")}>
-            Shark
-            <img src={require("./images/shark.jpg")} alt="Shark" className="image" />
-          </div>
-          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "W")}>
-            WhirlPool
-            <img src={require("./images/whirlpool.jpg")} alt="WhirlPool" className="image" />
-          </div>
-          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "T")}>
-            Treasure
-            <img src={require("./images/treasure.jpg")} alt="Treasure" className="image" />
-          </div>
-          <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "S")}>
-            Shield
-            <img src={require("./images/shield.jpg")} alt="Shield" className="image" />
-          </div>
+        <div className="game-banner">
+          <h1>Christopher Columbus - Game</h1>
         </div>
 
-        <div className="game-container">
-          <div id="board">
-            {this.state.cells.map((cell, i) => this.createCell(cell, i))}
+        <div className="content-container">
+          <div className="images-panel">
+            <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "P")}>
+              Fast Pirate
+              <img src={require("./images/fastPirate.jpg")} alt="Fast Pirate" className="image" />
+            </div>
+            <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "C")}>
+              Columbus Ship
+              <img src={require("./images/ship.jpg")} alt="Columbus Ship" className="image" />
+            </div>
+            <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "I")}>
+              Island
+              <img src={require("./images/island.jpg")} alt="Island" className="image" />
+            </div>
+            <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "Q")}>
+              Slow Pirate
+              <img src={require("./images/pirateShip.jpg")} alt="Slow Pirate" className="image" />
+            </div>
+            <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "M")}>
+              Shark
+              <img src={require("./images/shark.jpg")} alt="Shark" className="image" />
+            </div>
+            <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "W")}>
+              WhirlPool
+              <img src={require("./images/whirlpool.jpg")} alt="WhirlPool" className="image" />
+            </div>
+            <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "T")}>
+              Treasure
+              <img src={require("./images/treasure.jpg")} alt="Treasure" className="image" />
+            </div>
+            <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "S")}>
+              Shield
+              <img src={require("./images/shield.jpg")} alt="Shield" className="image" />
+            </div>
+          </div>
+
+          <div className="game-area">
+            <div id="board">
+              {this.state.cells.map((cell, i) => this.createCell(cell, i))}
+            </div>
           </div>
         </div>
 
