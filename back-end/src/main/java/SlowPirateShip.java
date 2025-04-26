@@ -32,23 +32,14 @@ class SlowPirateShip implements PirateShip{
             case 3: pirateLocation = moveLeft(oceanGrid,game);break;
         }
         int nx=(int)pirateLocation.getX();int ny=(int)pirateLocation.getY();
-        if(game.getColumbusShip().getX()==nx&&game.getColumbusShip().getY()==ny){
-            if(ship.getDefense()==null){
-                game.setWinner("Pirate");
-            game.setColumbusShip(null);
-            System.out.println("Pirate captured Columbus");
-            }
-            else{
-                ship.reduceShield();
-                game.killPirateShip(nx, ny);
-                return ;
-            }
-        }
-        if(oceanGrid[nx][ny]=='W'){
-            pirateLocation = game.newRandomLocation(nx, ny);
-        }
-        oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]=accept(game.getCreatures(), game)?'M':'Q';
-        return ;
+        pirateLocation=game.pirateColumbusCollisionCheck(nx, ny);
+        if(pirateLocation!=null&&oceanGrid[nx][ny]=='W')
+			pirateLocation.setLocation(game.newRandomLocation(nx, ny));
+        if(pirateLocation!=null)
+		{
+            oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]=accept(game.getCreatures(), game)?'M':'Q';
+        }        
+        return;
     }
     public Point2D moveUp(char[][] oceanGrid,Game game)
     {
