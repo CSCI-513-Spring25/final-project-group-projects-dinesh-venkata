@@ -7,7 +7,6 @@ interface Props { }
 
 class App extends React.Component<Props, GameState> {
   private initialized: boolean = false;
-  currentPlayer = 'PLAYER0';
   winner = '';
 
   constructor(props: Props) {
@@ -26,7 +25,6 @@ class App extends React.Component<Props, GameState> {
       e.preventDefault();
       const response = await fetch(`/play?x=${x}&y=${y}`);
       const json = await response.json();
-      this.currentPlayer = json['currentPlayer'];
       this.setState({ cells: json['cells'] });
     }
   }
@@ -34,7 +32,6 @@ class App extends React.Component<Props, GameState> {
   undo = async () => {
     const response = await fetch(`/undo`);
     const json = await response.json();
-    this.currentPlayer = json['currentPlayer'];
     this.setState({ cells: json['cells'] });
   }
 

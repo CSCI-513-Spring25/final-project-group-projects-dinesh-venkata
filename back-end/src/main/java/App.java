@@ -27,20 +27,23 @@ public class App extends NanoHTTPD {
         System.out.println("\nRunning!\n");
     }
 
+    // Method that handles HTTP requests from browser
     @Override
     public Response serve(IHTTPSession session) {
         String uri = session.getUri();
         Map<String, String> params = session.getParms();
         if (uri.equals("/newgame")) {
+            // User wants to start a new game
             this.game = new Game();
-        } else if (uri.equals("/play")) {           
+        } else if (uri.equals("/play")) {        
+            // When an arrow key is pressed   
             this.game = this.game.play(Integer.parseInt(params.get("keyEvent")));
-        }else if(uri.equals("/createObject")){            
+        }else if(uri.equals("/createObject")){     
+            // When user wants to create a new object by dragging and dropping       
             this.game = this.game.createObject(Integer.parseInt(params.get("index")),params.get("type").charAt(0));
         }
         // Extract the view-specific data from the game and apply it to the template.
         GameState gameplay = GameState.forGame(this.game);
-        System.out.println(gameplay.toString());
         return newFixedLengthResponse(gameplay.toString());
     }   
 

@@ -3,14 +3,14 @@ import java.util.Arrays;
 public class GameState {
 
     private final Cell[] cells;
-    private GameState(Game game) {
+    private GameState(Game game,String winner) {
         this.cells = getCells(game);  
     }
 
     public static GameState forGame(Game game) {
         // Cell[] cells = getCells(game);        
         //return new GameState(cells);
-        return new GameState(game);
+        return new GameState(game,game.getWinner());
     }
 
     public Cell[] getCells() {
