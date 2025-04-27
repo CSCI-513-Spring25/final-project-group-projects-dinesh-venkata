@@ -3,9 +3,10 @@ import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-
+// Leaf component of Composite design pattern
 class Shark extends CreatureContainer implements Creature {
-    private Point2D location;
+    private Point2D location; // 
+    // common method of composite design pattern
     @Override
     public void move(Game game) {
         // TODO Auto-generated method stub
@@ -15,34 +16,35 @@ class Shark extends CreatureContainer implements Creature {
         int direction = random.nextInt(0,4);
         char[][] grid=game.getGrid();        
         grid[xCoordinate][yCoordinate]=Character.MIN_VALUE;
+        // get random direction for Shark
         switch(direction){
             case 0:
             {
-                if(xCoordinate-1>=super.xfloor&&grid[xCoordinate-1][yCoordinate]!='M')
+                if(xCoordinate-1>=super.xfloor&&grid[xCoordinate-1][yCoordinate]!='M') // move up
                     xCoordinate--;
                 break;
             }
             case 1:
             {
-                if(yCoordinate+1<=super.yceiling&&grid[xCoordinate][yCoordinate+1]!='M')
+                if(yCoordinate+1<=super.yceiling&&grid[xCoordinate][yCoordinate+1]!='M') // move right
                     yCoordinate++;
                 break;
             }
             case 2:
             {
-                if(xCoordinate+1<=super.xceiling&&grid[xCoordinate+1][yCoordinate]!='M')
+                if(xCoordinate+1<=super.xceiling&&grid[xCoordinate+1][yCoordinate]!='M') // move down
                     xCoordinate++;
                 break;
             }
             case 3:
             {
-                if(yCoordinate-1>=super.yfloor&&grid[xCoordinate][yCoordinate-1]!='M')
+                if(yCoordinate-1>=super.yfloor&&grid[xCoordinate][yCoordinate-1]!='M')// move left
                     yCoordinate--;                
                 break;
             }
         }
         if(grid[xCoordinate][yCoordinate]!='M'){
-            kill(game,xCoordinate,yCoordinate,grid[xCoordinate][yCoordinate]);
+            kill(game,xCoordinate,yCoordinate,grid[xCoordinate][yCoordinate]);// check if there is pirate/cc in new shark location and kill them
             location = new Point2D.Float(xCoordinate,yCoordinate);
             grid[xCoordinate][yCoordinate]='M';            
         }        
@@ -50,6 +52,7 @@ class Shark extends CreatureContainer implements Creature {
     Shark(int x,int y){
         this.location=new Point2D.Float(x,y);
     }
+    // Once shark moves to its location, check if there is any pirate/CC in that grid and kill
     public void kill(Game game,int x,int y, char type){
         List<PirateShip>pirateShips=game.getPirateShips();
         if(type=='P')
