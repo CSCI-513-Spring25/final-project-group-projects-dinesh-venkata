@@ -1,4 +1,3 @@
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +76,6 @@ public class Game {
             return pirateShip;                          		 
 		}
     public void addIslands(int xCoordinate,int yCoordinate){
-			//Before assigning Pirate ships, Make sure that location is not occupied by some other island/ship 
 			if(!containsObject(xCoordinate, yCoordinate))
 			{
 				grid[xCoordinate][yCoordinate] = 'I';
@@ -107,7 +105,7 @@ public class Game {
         else if(!containsObject(nx, ny+1))ny++;
         Point2D nextLocation = new Point2D.Float(nx, ny);
         System.out.println(newWhirlpoolLocation +" , "+nextLocation);
-        return nextLocation.equals(newWhirlpoolLocation)?null:nextLocation;//Checking for obstacles surrounding whirlpool
+        return nextLocation.equals(newWhirlpoolLocation)?null:nextLocation;
     }
     public boolean noObstacles(int x,int y){
         return x>=0&&x<=19&&y>=0&&y<=19&&grid[x][y]!='I';

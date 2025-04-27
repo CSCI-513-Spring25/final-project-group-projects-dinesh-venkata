@@ -5,20 +5,34 @@ import BoardCell from './Cell';
 
 interface Props { }
 
-class App extends React.Component<Props, GameState> {
+interface AppState extends GameState {
+  showWinnerPopup: boolean;
+}
+
+class App extends React.Component<Props, AppState> {
   private initialized: boolean = false;
   currentPlayer = 'PLAYER0';
-  winner = '';
 
   constructor(props: Props) {
     super(props);
-    this.state = { cells: [], widgets: [], setWidgets: [], name: "" };
+    this.state = { 
+      cells: [], 
+      widgets: [], 
+      setWidgets: [], 
+      name: "",
+      showWinnerPopup: false,
+      winner: undefined
+    };
   }
 
   newGame = async () => {
     const response = await fetch('/newgame');
     const json = await response.json();
-    this.setState({ cells: json['cells'] });
+    this.setState({ 
+      cells: json['cells'],
+      showWinnerPopup: false,
+      winner: undefined
+    });
   }
 
   play(x: number, y: number): React.MouseEventHandler {
@@ -27,7 +41,11 @@ class App extends React.Component<Props, GameState> {
       const response = await fetch(`/play?x=${x}&y=${y}`);
       const json = await response.json();
       this.currentPlayer = json['currentPlayer'];
-      this.setState({ cells: json['cells'] });
+      this.setState({ 
+        cells: json['cells'],
+        winner: json['winner'],
+        showWinnerPopup: !!json['winner']
+      });
     }
   }
 
@@ -35,13 +53,21 @@ class App extends React.Component<Props, GameState> {
     const response = await fetch(`/undo`);
     const json = await response.json();
     this.currentPlayer = json['currentPlayer'];
-    this.setState({ cells: json['cells'] });
+    this.setState({ 
+      cells: json['cells'],
+      winner: json['winner'],
+      showWinnerPopup: !!json['winner']
+    });
   }
 
   handleKeyPressed = async (event) => {
     const response = await fetch(`/play?keyEvent=${event.keyCode}`);
     const json = await response.json();
-    this.setState({ cells: json['cells'] });
+    this.setState({ 
+      cells: json['cells'],
+      winner: json['winner'],
+      showWinnerPopup: !!json['winner']
+    });
   }
 
   handleOnDrag = (e: React.DragEvent, widgetType: string) => {
@@ -52,7 +78,11 @@ class App extends React.Component<Props, GameState> {
     const type = e.dataTransfer.getData("type") as string;
     const response = await fetch(`/createObject?index=${image}&type=${type}`);
     const json = await response.json();
-    this.setState({ cells: json['cells'] });
+    this.setState({ 
+      cells: json['cells'],
+      winner: json['winner'],
+      showWinnerPopup: !!json['winner']
+    });
   }
 
   handleDragOver(e: React.DragEvent) {
@@ -84,12 +114,26 @@ class App extends React.Component<Props, GameState> {
     window.removeEventListener("keydown", this.handleKeyPressed, false);
   }
 
+  closePopup = () => {
+    this.setState({ showWinnerPopup: false });
+    this.newGame();
+  }
+
   render(): React.ReactNode {
     return (
       <div className="app-container">
         <div className="game-banner">
           <h1>Christopher Columbus - Game</h1>
         </div>
+
+        {this.state.showWinnerPopup && (
+          <div className="winner-popup-overlay">
+            <div className={`winner-popup ${this.state.winner === 'Columbus' ? 'celebration' : ''}`}>
+              <h2>{this.state.winner === 'Columbus' ? 'Winner!' : 'Lost!'}</h2>
+              <button onClick={this.closePopup}>Play Again</button>
+            </div>
+          </div>
+        )}
 
         <div className="content-container">
           <div className="images-panel">

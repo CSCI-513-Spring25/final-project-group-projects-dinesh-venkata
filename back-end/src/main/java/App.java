@@ -1,6 +1,4 @@
 
-
-
 import java.io.IOException;
 import java.util.Map;
 import fi.iki.elonen.NanoHTTPD;
@@ -17,10 +15,6 @@ public class App extends NanoHTTPD {
 
     private Game game;
 
-    /**
-     * Start the server at :8080 port.
-     * @throws IOException
-     */
     public App() throws IOException {
         super(8080);
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
@@ -35,10 +29,9 @@ public class App extends NanoHTTPD {
             this.game = new Game();
         } else if (uri.equals("/play")) {           
             this.game = this.game.play(Integer.parseInt(params.get("keyEvent")));
-        }else if(uri.equals("/createObject")){            
+        } else if(uri.equals("/createObject")){            
             this.game = this.game.createObject(Integer.parseInt(params.get("index")),params.get("type").charAt(0));
         }
-        // Extract the view-specific data from the game and apply it to the template.
         GameState gameplay = GameState.forGame(this.game);
         return newFixedLengthResponse(gameplay.toString());
     }   
