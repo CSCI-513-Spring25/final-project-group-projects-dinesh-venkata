@@ -2,7 +2,8 @@ interface GameState {
   cells: Cell[];
   widgets: string[];
   setWidgets: string[];
-  name:string;
+  name: string;
+  winner?: string;
 }
 
 interface Cell {

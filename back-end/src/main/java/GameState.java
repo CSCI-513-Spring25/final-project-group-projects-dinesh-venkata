@@ -3,13 +3,15 @@ import java.util.Arrays;
 public class GameState {
 
     private final Cell[] cells;
-    private GameState(Game game,String winner) {
-        this.cells = getCells(game);  
+    private final String winner;
+    private GameState(Game game, String winner) {
+        this.cells = getCells(game);
+        this.winner = winner;
     }
-
     public static GameState forGame(Game game) {
-        // Cell[] cells = getCells(game);        
-        //return new GameState(cells);
+        // Cell[] cells = getCells(game);
+        //  String winner = game.getWinner();
+        
         return new GameState(game,game.getWinner());
     }
 
@@ -24,8 +26,9 @@ public class GameState {
     @Override
     public String toString() {
         return """
-                { "cells": %s}
-                """.formatted(Arrays.toString(this.cells));
+                { "cells": %s, "winner": %s}
+                """.formatted(Arrays.toString(this.cells), 
+                this.winner == null ? "null" : "\"" + this.winner + "\"");
     }
 
     private static Cell[] getCells(Game game) {

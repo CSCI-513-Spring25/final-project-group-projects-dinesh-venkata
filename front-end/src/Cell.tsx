@@ -1,49 +1,47 @@
 import React from 'react';
 import { Cell } from './game';
 
-
 interface Props {
-  cell: Cell
+  cell: Cell;
 }
 
 class BoardCell extends React.Component<Props> {
-  render(): React.ReactNode {    
-    if(this.props.cell.text=='P')
+  private static imageMap = {
+    'P': require("./images/fastPirate.jpg"),
+    'C': require("./images/ship.jpg"),
+    'I': require("./images/island.jpg"),
+    'Q': require("./images/pirateShip.jpg"),
+    'M': require("./images/shark.jpg"),
+    'W': require("./images/whirlpool.jpg"),
+    'T': require("./images/treasure.jpg"),
+    'S': require("./images/shield.jpg")
+  };
+
+  render(): React.ReactNode {
+    const { cell } = this.props;
+    const imageSrc = BoardCell.imageMap[cell.text as keyof typeof BoardCell.imageMap];
+
+    if (imageSrc) {
+      return (
+        <div className="cell-image-container">
+          <img 
+            src={imageSrc} 
+            alt="cell content" 
+            className="cell-image"
+            style={{
+              width: '90%',
+              height: '90%',
+              objectFit: 'contain',
+              pointerEvents: 'none'
+            }}
+          />
+        </div>
+      );
+    }
+    
     return (
-      <img src={require(".//images//fastPirate.jpg")} alt="Nothing" className={`resizecell `}></img>
-    )
-    else if(this.props.cell.text=='C')
-      return (   
-      <img src={require(".//images//ship.jpg")} alt="Nothing" className={`resizecell `}></img>  
-      )
-      else if(this.props.cell.text=='I')
-        return (
-          <img src={require(".//images//island.jpg")} alt="Nothing" className={`resizecell `}></img>  
-        )
-      else if(this.props.cell.text=='Q')
-        return (
-          <img src={require(".//images//pirateShip.jpg")} alt="Nothing" className={`resizecell `}></img>  
-        )
-        else if(this.props.cell.text=='M')
-          return (
-            <img src={require(".//images//shark.jpg")} alt="Nothing" className={`resizecell `}></img>  
-          )
-    else if(this.props.cell.text=='W')
-      return (
-        <img src={require(".//images//whirlpool.jpg")} alt="Nothing" className={`resizecell `}></img> 
-      )
-      else if(this.props.cell.text=='T')
-        return (
-        <img src={require(".//images//treasure.jpg")} alt="Nothing" className={`resizecell `}></img> 
-        )
-        else if (this.props.cell.text=='S')
-          return (
-            <img src={require(".//images//shield.jpg")} alt="Nothing" className={`resizecell `}></img> 
-            )
-      else
-      return (
-        <div className={`cell ` }>{this.props.cell.text}</div>
-      )
+      <div className="cell">{cell.text}</div>
+    );
   }
 }
 

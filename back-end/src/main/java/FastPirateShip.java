@@ -40,12 +40,14 @@ class FastPirateShip implements PirateShip{
 		    py--;
 		pirateLocation.setLocation(px, py);	
 		pirateLocation=game.pirateColumbusCollisionCheck(px, py);// check if pirate collides with CC
+		if(pirateLocation == null)oceanGrid[cx][cy]='C'; 
 		if(pirateLocation!=null&&oceanGrid[px][py]=='W')// check if pirate enters whirlpool
 			pirateLocation.setLocation(game.newRandomLocation(px, py));
 		if(pirateLocation!=null)
 		{
 			oceanGrid[(int)pirateLocation.getX()][(int)pirateLocation.getY()]=(accept(game.getCreatures(),game))?'M':'P';// check if pirate collides with shark
 		}
+		
 		return;
     }
 	// method inherited from VisiteeInterface to call visit method of Visitor
