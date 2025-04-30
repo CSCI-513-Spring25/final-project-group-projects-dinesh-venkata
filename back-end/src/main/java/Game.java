@@ -95,7 +95,7 @@ public class Game {
     public void addCreatures(int xCoordinate,int yCoordinate)
     {
         // make sure that creature is within pre defined boundaries of composite
-        if(!this.containsObject(xCoordinate, yCoordinate)&&xCoordinate>=16&&xCoordinate<=19&&yCoordinate>=8&&yCoordinate<=11&&grid[xCoordinate][yCoordinate]!='M')
+        if(!this.containsObject(xCoordinate, yCoordinate)&&xCoordinate>=2&&xCoordinate<=5&&yCoordinate>=8&&yCoordinate<=11&&grid[xCoordinate][yCoordinate]!='M')
         {
             creatures.addMonster(new Shark(xCoordinate,yCoordinate));// add leaf creature to composite component
             grid[xCoordinate][yCoordinate]='M';
@@ -145,8 +145,8 @@ public class Game {
             case 'I': addIslands(xCoordinate,yCoordinate);break;
             case 'W': addWhirlpool(xCoordinate, yCoordinate);break;
             case 'M': addCreatures(xCoordinate,yCoordinate);break;
-            case 'T': grid[xCoordinate][yCoordinate]=type; break;
-            case 'S': grid[xCoordinate][yCoordinate]=type;break;
+            case 'T': grid[xCoordinate][yCoordinate]=!containsObject(xCoordinate, yCoordinate)?type:grid[xCoordinate][yCoordinate]; break;
+            case 'S': grid[xCoordinate][yCoordinate]=!containsObject(xCoordinate, yCoordinate)?type:grid[xCoordinate][yCoordinate]; break;
         }
         return this;
     }

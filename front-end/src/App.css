@@ -8,8 +8,31 @@ html, body {
 
 .app-container {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   width: 100vw;
+}
+
+/* Game Banner */
+.game-banner {
+  background-color: #2196F3;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.game-banner h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+/* Content Container */
+.content-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
 }
 
 /* Images Panel */
@@ -18,7 +41,6 @@ html, body {
   background-color: #2196F3;
   padding: 15px;
   overflow-y: auto;
-  height: calc(100vh - 50px);
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -46,14 +68,15 @@ html, body {
   pointer-events: none;
 }
 
-/* Game Board */
-.game-container {
+/* Game Area */
+.game-area {
   flex: 1;
   overflow: auto;
-  padding: 10px;
   background-color: #f0f0f0;
+  padding: 10px;
 }
 
+/* Board */
 #board {
   display: grid;
   grid-template-columns: repeat(20, minmax(30px, 1fr));
@@ -73,21 +96,6 @@ html, body {
   aspect-ratio: 1;
   position: relative;
   overflow: hidden;
-}
-
-/* Updated Cell Content Styling */
-.cell-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.cell-image {
-  width: 100%;
-  height: 100%;
-  object-fit: scale-down;
 }
 
 /* Bottom Bar */
@@ -117,9 +125,75 @@ html, body {
   background-color: #e0e0e0;
 }
 
+/* Winner Popup Styles */
+.winner-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.winner-popup {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 400px;
+  width: 80%;
+}
+
+.winner-popup h2 {
+  margin-top: 0;
+  color: #2196F3;
+  font-size: 2rem;
+}
+
+.winner-popup button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.winner-popup button:hover {
+  background-color: #0d8bf2;
+}
+
+/* Celebration styles for Columbus win */
+.winner-popup.celebration {
+  animation: celebration 0.5s ease infinite alternate;
+  background-color: #ffeb3b;
+}
+
+.winner-popup.celebration h2 {
+  color: #f44336;
+  animation: colorChange 1s ease infinite alternate;
+}
+
+@keyframes celebration {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+@keyframes colorChange {
+  0% { color: #f44336; }
+  50% { color: #4caf50; }
+  100% { color: #2196F3; }
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  .app-container {
+  .content-container {
     flex-direction: column;
   }
   
@@ -136,4 +210,22 @@ html, body {
   .image-item {
     min-width: 120px;
   }
+}
+
+/* Cell Styles */
+.cell-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.cell-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }

@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 //Composite Component in Composite design pattern
 class CreatureContainer implements Creature, VisitorInterface{
     // boundaries of all creatures inside container
-    int xfloor=16;
-    int xceiling=19;
+    int xfloor=5;
+    int xceiling=2;
     int yfloor=8;
     int yceiling=11;
     // Leaf elements in composite Component
