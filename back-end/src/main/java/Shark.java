@@ -65,6 +65,7 @@ class Shark extends CreatureContainer implements Creature {
             pirate=null;
         }
         if (type=='C'){
+            System.out.println("Killing Columbus");
             game.setWinner("Shark");
             game.setColumbusShip(null);            
         }

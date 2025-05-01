@@ -34,7 +34,7 @@ public class App extends NanoHTTPD {
         Map<String, String> params = session.getParms();
         if (uri.equals("/newgame")) {
             // User wants to start a new game
-            this.game = new Game();
+            this.game = Game.getInstance();
         } else if (uri.equals("/play")) {        
             // When an arrow key is pressed   
             this.game = this.game.play(Integer.parseInt(params.get("keyEvent")));

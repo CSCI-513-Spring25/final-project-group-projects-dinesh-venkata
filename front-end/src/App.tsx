@@ -169,6 +169,10 @@ class App extends React.Component<Props, AppState> {
               Shield
               <img src={require("./images/shield.jpg")} alt="Shield" className="image" />
             </div>
+            <div className="image-item" draggable onDragStart={(e) => this.handleOnDrag(e, "H")}>
+              Pirate Island
+              <img src={require("./images/pirateIsland.jpg")} alt="Shield" className="image" />
+            </div>
           </div>
 
           <div className="game-area">

@@ -14,7 +14,8 @@ class BoardCell extends React.Component<Props> {
     'M': require("./images/shark.jpg"),
     'W': require("./images/whirlpool.jpg"),
     'T': require("./images/treasure.jpg"),
-    'S': require("./images/shield.jpg")
+    'S': require("./images/shield.jpg"),
+    'H': require("./images/pirateIsland.jpg")
   };
 
   render(): React.ReactNode {

@@ -13,7 +13,7 @@ public class FastPirateShipTest {
   public final ExpectedException exception = ExpectedException.none();
     @Test
     public void movePirateShipTest(){
-        Game game = new Game();
+        Game game = Game.getInstance();
         game.addColumbusShip(10,12);
         PirateShip pirate = game.addPirateShips(8, 15,'P');
         ColumbusShip ship = game.getColumbusShip();
@@ -23,7 +23,7 @@ public class FastPirateShipTest {
     }
     @Test
     public void movePirateShipWithObstacleTest(){
-        Game game = new Game();
+        Game game = Game.getInstance();
         game.addColumbusShip(10,12);
         PirateShip pirate = game.addPirateShips(15,17,'P');
         ColumbusShip ship = game.getColumbusShip();
@@ -34,13 +34,13 @@ public class FastPirateShipTest {
     }
     @Test
     public void createPirateShipTest(){
-        Game game = new Game();
+        Game game = Game.getInstance();
         exception.expect(InputMismatchException.class);        
         game.addPirateShips(20, 2,'P');
     }
     @Test
     public void avoidPirateShipCollisionTest(){
-        Game game = new Game();
+        Game game = Game.getInstance();
         game.addColumbusShip(8,10);
         PirateShip pirate1 = game.addPirateShips(10,10,'P');
         PirateShip pirate2 = game.addPirateShips(10,11,'P');
@@ -52,7 +52,7 @@ public class FastPirateShipTest {
     }
     @Test
     public void captureColumbusTest(){
-        Game game = new Game();
+        Game game = Game.getInstance();
         game.addColumbusShip(13,17);
         PirateShip pirateShip = game.addPirateShips(13, 16,'P');
         ColumbusShip ship = game.getColumbusShip();
@@ -61,7 +61,7 @@ public class FastPirateShipTest {
     }
     @Test
     public void pirateEntersWhirlpoolTest(){
-        Game game = new Game();
+        Game game = Game.getInstance();
         game.addColumbusShip(17,9);
         PirateShip pirate = game.addPirateShips(9, 15, 'P');
         game.addWhirlpool(10, 16);
@@ -76,10 +76,10 @@ public class FastPirateShipTest {
     }
     @Test
     public void pirateEntersSeaCreatureTest(){
-        Game game = new Game();
-        game.addColumbusShip(19,19);
-        PirateShip pirate = game.addPirateShips(19, 8,'P');
-        game.addCreatures(19,9);
+        Game game = Game.getInstance();
+        game.addColumbusShip(2,19);
+        PirateShip pirate = game.addPirateShips(2, 8,'P');
+        game.addCreatures(2,9);
         ColumbusShip ship = game.getColumbusShip();
         ship.moveEast(game);
         ship.moveEast(game);
@@ -88,7 +88,7 @@ public class FastPirateShipTest {
     }
     @Test
     public void pirateEntersWhirlpoolWithObstaclesTest(){
-        Game game = new Game();
+        Game game = Game.getInstance();
         game.addColumbusShip(17,9);
         PirateShip pirate = game.addPirateShips(9, 15, 'P');
         game.addWhirlpool(10, 14);

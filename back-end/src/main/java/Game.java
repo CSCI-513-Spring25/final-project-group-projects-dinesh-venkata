@@ -14,28 +14,33 @@ public class Game {
     private WhirlpoolComposite whirlpools; // Composite node of Whirlpools
     private CreatureContainer creatures; // Composite node of sharks
     private String winner; 
+    private static Game game;
     // utility method to change values in grid
     public void updateGrid(int x,int y,char value){
         grid[x][y]=value;
     }
     public CreatureContainer getCreatures(){
-        return this.creatures;
+        return creatures;
     }
-    public Game(){         
+    private Game(){         
             pirateFactory = new ConcretePirateShipFactory();
             whirlpools=new WhirlpoolComposite();             
             pirateShips = new ArrayList<>();
             creatures = new CreatureContainer();
             initializeGrid(); 
     }
+    public static Game getInstance(){
+        game = new Game();
+        return game;
+    }
     // utility method needed in object creation to check if there are no objects already available in given location
     public boolean containsObject(int x,int y){
-        return (grid[x][y]=='C'|| grid[x][y]=='P' || grid[x][y]=='Q'|| grid[x][y]=='I' || grid[x][y]=='W' || grid[x][y]=='T');
+        return (grid[x][y]=='C'|| grid[x][y]=='P' || grid[x][y]=='Q'|| grid[x][y]=='I' || grid[x][y]=='W' || grid[x][y]=='T' || grid[x][y] =='H' || grid[x][y]=='S');
     }
     // getter for pirates
     public List<PirateShip> getPirateShips()
     {
-        return this.pirateShips;
+        return pirateShips;
     }
     // when a new game is started, create a new grid[][]
     public char[][] initializeGrid(){
@@ -50,13 +55,13 @@ public class Game {
         this.ship=ship;
     }
     public String getWinner(){
-        return winner;
+        return this.winner;
     }
     public static char[][] getGrid(){        
         return grid;
     }
     public ColumbusShip getColumbusShip(){
-        return ship;
+        return this.ship;
     }
     // Method to handle arrow key press events
     public Game play(int keyEvent){
@@ -128,7 +133,7 @@ public class Game {
     }
     // utility method to check if there are no obstacles for pirate to move
     public boolean noObstaclesForPirate(int x,int y){
-        return x>=0&&x<=19&&y>=0&&y<=19&&grid[x][y]!='I'&&grid[x][y]!='P'&&grid[x][y]!='Q'&&grid[x][y]!='T';
+        return x>=0&&x<=19&&y>=0&&y<=19&&grid[x][y]!='I'&&grid[x][y]!='P'&&grid[x][y]!='Q'&&grid[x][y]!='T' && grid[x][y]!='S';
     }
     // create new CC only if it is not already present
     public void addColumbusShip(int xCoordinate,int yCoordinate){
@@ -147,6 +152,7 @@ public class Game {
             case 'M': addCreatures(xCoordinate,yCoordinate);break;
             case 'T': grid[xCoordinate][yCoordinate]=!containsObject(xCoordinate, yCoordinate)?type:grid[xCoordinate][yCoordinate]; break;
             case 'S': grid[xCoordinate][yCoordinate]=!containsObject(xCoordinate, yCoordinate)?type:grid[xCoordinate][yCoordinate]; break;
+            case 'H': grid[xCoordinate][yCoordinate]=!containsObject(xCoordinate, yCoordinate)?type:grid[xCoordinate][yCoordinate]; break;
         }
         return this;
     }
